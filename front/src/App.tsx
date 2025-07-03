@@ -1,47 +1,37 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import { electronApi } from './electronApi';
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { RegisterForm } from './Pages/Register';
+import { WindowControls } from './Component/WindowControls';
+import { LoginForm } from './Pages/Login';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [paginaAtual, setPaginaAtual] = useState<string>('login');
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   // Enviar mensagem para o Electron
+  //   electronApi.send('meu-canal', { mensagem: 'Olá Electron!' });
+  //   // Ouvir resposta do Electron
+  //   electronApi.on('resposta-canal', (event: any, data: any) => {
+  //     console.log('Resposta do Electron:', data);
+  //   });
+  // }, []);
 
-    // Enviar mensagem para o Electron
-    electronApi.send('meu-canal', { mensagem: 'Olá Electron!' });
-
-    // Ouvir resposta do Electron
-    electronApi.on('resposta-canal', (event: any, data: any) => {
-      console.log('Resposta do Electron:', data);
-    });
-  }, []);
+   const renderPagina = () => {
+    switch (paginaAtual) {
+      case 'register':
+        return <RegisterForm onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
+      case 'login':
+        return <LoginForm onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
+      default:
+        return <LoginForm onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <WindowControls />
+      {renderPagina()}
     </>
   )
 }
 
-export default App
+export default App;

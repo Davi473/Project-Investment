@@ -1,6 +1,5 @@
-// Comunicação segura entre React e Electron
-
 // Verifica se estamos rodando no contexto do Electron
+// @ts-ignore
 const { ipcRenderer } = window.require ? window.require('electron') : { ipcRenderer: null };
 
 export const electronApi = {
