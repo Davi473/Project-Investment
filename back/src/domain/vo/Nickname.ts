@@ -1,25 +1,13 @@
-export function Nickname(target: any, propertyKey: string) {
-    const capitalized = propertyKey.charAt(0).toUpperCase() + propertyKey.slice(1);
-
-    // Define os métodos diretamente no prototype da classe
-    Object.defineProperty(target, `get${capitalized}`, {
-        value: function () {
-        return this[propertyKey];
-        },
-        writable: false,
-        enumerable: false,
-        configurable: true,
-    });
-
-    Object.defineProperty(target, `set${capitalized}`, {
-        value: function (value: any) {
-        if (value === undefined || value === null || value === ""  || value.length <= 3) {
-            throw new Error(`"${propertyKey}" cannot be empty.`);
+export function Nickname(
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+) {
+    const originalSetter = descriptor.set;
+    descriptor.set = function (value: string) {
+        if (!value || value.length <= 3) {
+            throw new Error("Nickname deve ter mais de 3 caracteres.");
         }
-        this[propertyKey] = value;
-        },
-        writable: false,
-        enumerable: false,
-        configurable: true,
-    });
+        if (originalSetter) originalSetter.call(this, value);
+    };
 }

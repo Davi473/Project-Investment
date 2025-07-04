@@ -1,12 +1,11 @@
-export function Email(
+export function IsEmailVerified(
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor
 ) {
     const originalSetter = descriptor.set;
     descriptor.set = function (value: string) {
-        const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.+-]/;
-        if (!pattern.test(value)) throw new Error("Não é email válido"); 
+        // Fazer logica is email verified
         if (originalSetter) originalSetter.call(this, value);
     };
 }
