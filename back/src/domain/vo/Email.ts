@@ -1,12 +1,16 @@
-export function Email(
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-) {
-    const originalSetter = descriptor.set;
-    descriptor.set = function (value: string) {
-        const pattern = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.+-]/;
-        if (!pattern.test(value)) throw new Error("Não é email válido"); 
-        if (originalSetter) originalSetter.call(this, value);
-    };
+export class Email {
+  private readonly value: string;
+
+  constructor(email: string) {
+    if (!this.validate(email)) throw new Error("Email inválido");
+    this.value = email;
+  }
+
+  private validate(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  toString() {
+    return this.value;
+  }
 }

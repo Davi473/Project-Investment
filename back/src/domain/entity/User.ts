@@ -1,102 +1,80 @@
-import { CreatedAt } from "../vo/CreatedAt";
 import { Email } from "../vo/Email";
-import { HasAuthenticator } from "../vo/HasAuthenticator";
-import { Hash } from "../vo/Hash";
-import { IsEmailVerified } from "../vo/IsEmailVerified";
 import { Nickname } from "../vo/Nickname";
-import { UpdatedAt } from "../vo/UpdatedAt";
-import crypto from "crypto";
+import { Hash } from "../vo/Hash";
 
-export default class User {
-    private _email: string;
-    private _nickname: string;
-    private _hash: string;
-    private _isEmailVerified: boolean;
-    private _hasAuthenticator: boolean;
-    private _createdAt: Date;
-    private _updatedAt: Date
+export class User {
+  readonly id: string;
+  private _email: Email;
+  private _nickname: Nickname;
+  private _hash: Hash;
+  private _isEmailVerified: boolean;
+  private _totpSecret: string | null = null;
+  private _createdAt: Date;
+  private _updatedAt: Date;
 
-    constructor(
-        readonly id: string,
-        nickname: string,
-        email: string,
-        hash: string,
-        createdAt: Date,
-        updatedAt: Date,
-        isEmailVerified: boolean = false,
-        hasAuthenticator: boolean = false
-    ) {
-        this.nickname = nickname;
-        this.email = email;
-        this._hash = hash;
-        this.isEmailVerified = isEmailVerified;
-        this.hasAuthenticator = hasAuthenticator;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+  constructor(
+    id: string,
+    nickname: Nickname,
+    email: Email,
+    hash: Hash,
+    createdAt: Date,
+    updatedAt: Date,
+    isEmailVerified = false,
+    totpSecret: string | null = null
+  ) {
+    this.id = id;
+    this._nickname = nickname;
+    this._email = email;
+    this._hash = hash;
+    this._isEmailVerified = isEmailVerified;
+    this._totpSecret = totpSecret;
+    this._createdAt = createdAt;
+    this._updatedAt = updatedAt;
+  }
 
-    public static create(
-        nickname: string, 
-        email: string,
-        password: string,
-    ) {
-        const id = crypto.randomUUID();
-        const user = new User();
-    }
+  get email(): Email {
+    return this._email;
+  }
 
-    get email(): string {
-        return this._email;
-    }
-    @Email
-    set email(value: string) {
-        this._email = value;
-    }
+  get nickname(): Nickname {
+    return this._nickname;
+  }
 
-    get nickname(): string {
-        return this._nickname;
-    }   
-    @Nickname
-    set nickname(value: string) {
-        this._nickname = value;
-    }
+  get hash(): Hash {
+    return this._hash;
+  }
 
-    get hash(): string {
-        return this._hash;
-    }
-    @Hash
-    set hash(value: string) {
-        this._hash = value;
-    }
+  get isEmailVerified(): boolean {
+    return this._isEmailVerified;
+  }
 
-    get isEmailVerified(): boolean {
-        return this._isEmailVerified
-    }
-    @IsEmailVerified
-    set isEmailVerified(value: boolean) {
-        this._isEmailVerified = value;
-    }
+  get totpSecret(): boolean {
+    return this._totpSecret ? true : false;
+  }
 
-    get hasAuthenticator(): boolean {
-        return this._hasAuthenticator;
-    }
-    @HasAuthenticator
-    set hasAuthenticator(value: boolean) {
-        this._isEmailVerified = value;
-    } 
+  get createdAt(): Date {
+    return this._createdAt;
+  }
 
-    get createdAt(): Date {
-        return this._createdAt;
-    }
-    @CreatedAt
-    set createdAt(value: Date) {
-        this._createdAt = value;
-    }
+  get updatedAt(): Date {
+    return this._updatedAt;
+  }
 
-    get updatedAt(): Date {
-        return this._updatedAt;
+  verifyEmail() {
+    this._isEmailVerified = true;
+    this._updatedAt = new Date();
+  }
+
+  enableTwoFactorAuth(secret: string) {
+    if (this._totpSecret) {
+      throw new Error("2FA já está habilitado.");
     }
-    @UpdatedAt
-    set updatedAt(value: Date) {
-        this._updatedAt = value;
-    }
+    this._totpSecret = secret;
+    this._updatedAt = new Date();
+  }
+
+  disableTwoFactorAuth() {
+    this._totpSecret = null;
+    this._updatedAt = new Date();
+  }
 }

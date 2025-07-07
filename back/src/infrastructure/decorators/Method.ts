@@ -1,3 +1,11 @@
+export function Controller(prefix: string): ClassDecorator {
+  return (target: any) => {
+    if (!target.prefix) {
+      target.prefix = prefix;
+    }
+  };
+}
+
 export function Get(path: string = ""): MethodDecorator {
   return (target: any, propertyKey: any) => {
     const constructor = target.constructor;

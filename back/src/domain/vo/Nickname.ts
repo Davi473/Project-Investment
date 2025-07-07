@@ -1,13 +1,12 @@
-export function Nickname(
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-) {
-    const originalSetter = descriptor.set;
-    descriptor.set = function (value: string) {
-        if (!value || value.length <= 3) {
-            throw new Error("Nickname deve ter mais de 3 caracteres.");
-        }
-        if (originalSetter) originalSetter.call(this, value);
-    };
+export class Nickname {
+  private readonly value: string;
+
+  constructor(nickname: string) {
+    if (nickname.length < 3) throw new Error("Nickname muito curto");
+    this.value = nickname;
+  }
+
+  toString() {
+    return this.value;
+  }
 }

@@ -1,11 +1,18 @@
-export function Hash(
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-) {
-    const originalSetter = descriptor.set;
-    descriptor.set = function (value: string) {
-        // Fazer logica senha
-        if (originalSetter) originalSetter.call(this, value);
-    };
+import { PasswordHasher } from "../ports/PasswordHasher";
+
+export class Hash {
+  private readonly value: string;
+
+  private constructor(hash: string) {
+    this.value = hash;
+  }
+
+  static createFromPassword(password: string, hasher: PasswordHasher): Hash {
+    const hash = hasher.hash(password);
+    return new Hash(hash);
+  }
+
+  toString() {
+    return this.value;
+  }
 }
