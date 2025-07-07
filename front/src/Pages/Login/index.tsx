@@ -12,6 +12,9 @@ export const LoginForm: any = ({onTrocarPagina}: any) => {
         <label style={styles.label}>Password</label>
         <input type="password" placeholder="Enter your password" style={styles.input} />
 
+        <label style={styles.label}>Password</label>
+        <input type="button" value="Enter" style={styles.input}/>
+        
         <span style={{ marginTop: "10px", color: "white", fontSize: "0.9em" }}>
           Click here to{' '}
           <span
