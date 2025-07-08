@@ -14,10 +14,11 @@ const createWindow = () => {
         },
         frame: false,
         autoHideMenuBar: true,
+        transparent: true,
     });
 
     // mainWindow.loadURL('http://localhost:5173');
-    mainWindow.loadFile('index.html');
+    mainWindow.loadFile('/../index.html');
 
     // mainWindow.webContents.openDevTools(); // Descomente para abrir o DevTools automaticamente
 

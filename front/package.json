@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"vite\" \"electron .\"",
-    "electron": "electron electron/main.cjs",
+    "electron": "electron dist/electron/main.js",
     "dev": "vite",
-    "build": "tsc electron/main.ts && vite build",
+    "build:react": "vite build",
+    "build:electron": "tsc -p ./tsconfig.electron.json",
+    "build": "npm run build:react && npm run build:electron",
     "lint": "eslint .",
     "preview": "vite preview"
   },
