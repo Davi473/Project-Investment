@@ -15,9 +15,10 @@ async function fetchQrCode(token: string | null): Promise<{ qrCode: string; secr
       'Authorization': `Bearer ${token}`,
     },
   });
-  if (!response.ok) {
-    throw new Error('Failed to fetch QR code');
-  }
+  console.log(response);
+  // if (!response.ok) {
+  //   throw new Error('Failed to fetch QR code');
+  // }
   return response.json();
 }
 

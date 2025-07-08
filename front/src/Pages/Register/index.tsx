@@ -17,17 +17,18 @@ export const RegisterForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
       return;
     }
     try {
-      const reponse = await fetch("http://localhost:3000/user", {
+      const reponse = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          nicknameStr: nickname,
-          emailStr: email,
+          nickname: nickname,
+          email: email,
           password: password
         })
       }); 
+      console.log(reponse);
       if (reponse.status === 201) {
         const data = await reponse.json();
         alert(data.menssage);

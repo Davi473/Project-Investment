@@ -17,8 +17,8 @@ const createWindow = () => {
         transparent: true,
     });
 
-    // mainWindow.loadURL('http://localhost:5173');
-    mainWindow.loadFile('/../index.html');
+    mainWindow.loadURL('http://localhost:5173');
+    // mainWindow.loadFile('/../index.html');
 
     // mainWindow.webContents.openDevTools(); // Descomente para abrir o DevTools automaticamente
 

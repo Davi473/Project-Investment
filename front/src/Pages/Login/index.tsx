@@ -14,20 +14,20 @@ export const LoginForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
       alert("Por favor, preencha todos os campos.");
       return;
     }
-    const reponse = await fetch("http://localhost:3000/user", {
+    const reponse = await fetch("http://localhost:3000/users", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        emailStr: email,
+        email: email,
         password: password
       })
     }); 
     if (reponse.status === 201) {
       const data = await reponse.json();
-      alert(data.menssage);
-      onTrocarPagina("register");
+      localStorage.setItem("token", data.token);
+      onTrocarPagina("qrcode");
     } else {
       const errorData = await reponse.json();
       alert(errorData.message || "Erro ao fazer login");

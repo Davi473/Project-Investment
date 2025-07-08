@@ -7,7 +7,7 @@ import { QrCodePage } from './Pages/QrCode';
 import { Authenticator } from './Pages/Authenticator';
 
 function App() {
-  const [paginaAtual, setPaginaAtual] = useState<string>("authenticator");
+  const [paginaAtual, setPaginaAtual] = useState<string>("login");
 
    const renderPagina = () => {
     switch (paginaAtual) {
