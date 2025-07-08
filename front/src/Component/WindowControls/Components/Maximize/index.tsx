@@ -2,9 +2,10 @@ import React from 'react';
 import circleStyle from '../styleButton';
 
 export const Maximize: React.FC = () => {
+  // Cor do botão maximizar do macOS: #61c554
   return (
         <div 
-            style={{...circleStyle('#f9d949'),  WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+            style={{...circleStyle('#61c554'),  WebkitAppRegion: 'no-drag' } as React.CSSProperties}
             onClick={() => window.electronAPI.maximize()}
         >
             <span style={styles.span1}>

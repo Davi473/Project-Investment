@@ -4,7 +4,7 @@ import circleStyle from '../styleButton';
 export const Minimize: React.FC = () => {
   return (
         <div 
-            style={{ ...circleStyle('#d6d6d6'), WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+            style={{ ...circleStyle('#f4bf4f'), WebkitAppRegion: 'no-drag' } as React.CSSProperties}
             onClick={() => window.electronAPI.minimize()}
         >
             <span style={styles.span1}>

@@ -1,6 +1,6 @@
 const circleStyle = (color: string): React.CSSProperties => ({
-    width: '15px',
-    height: '15px',
+    width: '20px',
+    height: '20px',
     borderRadius: '50%',
     backgroundColor: color,
     marginLeft: '8px',

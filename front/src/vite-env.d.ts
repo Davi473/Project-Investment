@@ -4,6 +4,7 @@ interface ElectronAPI {
   minimize: () => void;
   maximize: () => void;
   close: () => void;
+  getPlatform: () => string;
 }
 
 interface Window {

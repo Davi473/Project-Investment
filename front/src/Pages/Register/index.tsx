@@ -1,10 +1,46 @@
 import styles from "./styles";
 import { useState } from "react";
 
-export const RegisterForm: any = ({onTrocarPagina}: any) => {
+interface QrCodePageProps {
+  onTrocarPagina: (pagina: string) => void;
+}
+
+export const RegisterForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
+
+  const registerUser = async () => 
+  {
+    if(!email || !nickname || !password) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+    try {
+      const reponse = await fetch("http://localhost:3000/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nicknameStr: nickname,
+          emailStr: email,
+          password: password
+        })
+      }); 
+      if (reponse.status === 201) {
+        const data = await reponse.json();
+        alert(data.menssage);
+        onTrocarPagina("login");
+      } else {
+        const errorData = await reponse.json();
+        alert(errorData.message || "Erro ao registrar usuário");
+      }
+    } catch (error) {
+      console.error("Erro ao registrar usuário:", error);
+      alert("Erro ao registrar usuário. Tente novamente mais tarde.");
+    }
+  }
 
   return (
     <div style={styles.container}>
@@ -13,42 +49,21 @@ export const RegisterForm: any = ({onTrocarPagina}: any) => {
 
         <label style={styles.label}>Email</label>
         <input type="email" placeholder="Enter your email" style={styles.input} 
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)} value={email}
         />
 
         <label style={styles.label}>Nickname</label>
         <input type="text" placeholder="Choose a nickname" style={styles.input} 
-          onChange={(e) => setNickname(e.target.value)}
+          onChange={(e) => setNickname(e.target.value)} value={nickname}
         />
 
         <label style={styles.label}>Password</label>
         <input type="password" placeholder="Create a password" style={styles.input} 
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)} value={password}
         />
 
-        <label style={styles.label}>Password</label>
         <input type="button" value="Enter" style={styles.input}
-          onClick={async() => {
-            const reponse = await fetch("http://localhost:3000/user", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                nicknameStr: nickname,
-                emailStr: email,
-                password: password
-              })
-            }); 
-            if (reponse.status === 201) {
-              const data = await reponse.json();
-              alert(data.menssage);
-              onTrocarPagina("login");
-            } else {
-              const errorData = await reponse.json();
-              alert(errorData.message || "Erro ao registrar usuário");
-            }
-          }}
+          onClick={() => registerUser()}
         />
 
         <span style={{ marginTop: "10px", color: "white", fontSize: "0.9em" }}>
@@ -68,4 +83,3 @@ export const RegisterForm: any = ({onTrocarPagina}: any) => {
     </div>
   );
 };
-

@@ -7,7 +7,6 @@ const DragBar: React.FC = () => {
         width: '100%',
         height: '32px',
         WebkitAppRegion: 'drag',
-        background: 'rgba(0,0,0,0.05)',
         position: 'absolute',
         top: 0,
         left: 0,
