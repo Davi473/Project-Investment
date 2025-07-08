@@ -4,8 +4,8 @@ import circleStyle from '../styleButton';
 export const Maximize: React.FC = () => {
   return (
         <div 
-            style={circleStyle('#f9d949')}
-            onClick={() => console.log('Maximize clicked')}
+            style={{...circleStyle('#f9d949'),  WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+            onClick={() => window.electronAPI.maximize()}
         >
             <span style={styles.span1}>
                 <span style={styles.span2}/>

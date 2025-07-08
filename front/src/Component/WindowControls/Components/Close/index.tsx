@@ -4,9 +4,9 @@ import circleStyle from '../styleButton';
 export const Close: React.FC = () => {
   return (
         <div 
-            style={circleStyle('#ff5f57')}
+            style={{...circleStyle('#ff5f57'), WebkitAppRegion: 'no-drag' } as React.CSSProperties}
             onClick={() => {
-                console.log('Close button clicked');
+                window.electronAPI.close();
             }}
         >
             <span style={styles.span1}>

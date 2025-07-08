@@ -12,9 +12,14 @@ const createWindow = () => {
             contextIsolation: true,
             nodeIntegration: false,
         },
+        frame: false,
+        autoHideMenuBar: true,
     });
 
-    mainWindow.loadURL('http://localhost:5173');
+    // mainWindow.loadURL('http://localhost:5173');
+    mainWindow.loadFile('index.html');
+
+    // mainWindow.webContents.openDevTools(); // Descomente para abrir o DevTools automaticamente
 
     mainWindow.on('closed', () => {
         mainWindow = null;
@@ -35,13 +40,29 @@ app.on('activate', () => {
     }
 });
 
-// Comunicação entre processos
 ipcMain.on('message-from-renderer', (event, arg) => {
-    console.log(arg); // Log da mensagem recebida do processo de renderização
+    console.log(arg);
     mainWindow?.webContents.send('message-from-main', 'Mensagem do processo principal');
 });
 
 ipcMain.on('meu-canal', (event, arg) => {
-  // Faça algo com arg
-  event.reply('resposta-canal', { resposta: 'Recebido no Electron!' });
+    event.reply('resposta-canal', { resposta: 'Recebido no Electron!' });
+});
+
+ipcMain.on('window-minimize', () => {
+    if (mainWindow) mainWindow.minimize();
+});
+
+ipcMain.on('window-maximize', () => {
+    if (mainWindow) {
+        if (mainWindow.isMaximized()) {
+            mainWindow.unmaximize();
+        } else {
+            mainWindow.maximize();
+        }
+    }
+});
+
+ipcMain.on('window-close', () => {
+    if (mainWindow) mainWindow.close();
 });

@@ -1,19 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { RegisterForm } from './Pages/Register';
 import { WindowControls } from './Component/WindowControls';
 import { LoginForm } from './Pages/Login';
+import DragBar from './Component/WindowControls/DragBar';
 
 function App() {
   const [paginaAtual, setPaginaAtual] = useState<string>('login');
-
-  // useEffect(() => {
-  //   // Enviar mensagem para o Electron
-  //   electronApi.send('meu-canal', { mensagem: 'Olá Electron!' });
-  //   // Ouvir resposta do Electron
-  //   electronApi.on('resposta-canal', (event: any, data: any) => {
-  //     console.log('Resposta do Electron:', data);
-  //   });
-  // }, []);
 
    const renderPagina = () => {
     switch (paginaAtual) {
@@ -28,6 +20,7 @@ function App() {
 
   return (
     <>
+      <DragBar />
       <WindowControls />
       {renderPagina()}
     </>

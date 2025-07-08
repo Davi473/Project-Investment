@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "concurrently \"vite\" \"electron .\"",
-    "electron": "electron .",
+    "electron": "electron electron/main.cjs",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc electron/main.ts && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@types/electron": "^1.4.38",
+    "@types/node": "^24.0.10",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
