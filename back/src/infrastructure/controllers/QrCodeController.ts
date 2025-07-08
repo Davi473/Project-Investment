@@ -1,6 +1,6 @@
 import GenerateTotpSecret from "../../application/usecase/qrCode/GenerateTotpSecret";
 import { Auth, UserAuth } from "../decorators/Auth";
-import { Body, Controller, Post } from "../decorators/Method";
+import { Body, Controller, Get } from "../decorators/Method";
 
 @Controller("/qrcode")
 export default class QrCodeController 
@@ -10,7 +10,7 @@ export default class QrCodeController
     ) {}
     
     @Auth()
-    @Post("/generate-totp-secret")
+    @Get("/generate-totp-secret")
     async generateTotp(@UserAuth() user: any, res: any): Promise<any>
     {
         const input = user;
