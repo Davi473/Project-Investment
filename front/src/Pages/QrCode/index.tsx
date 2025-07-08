@@ -59,7 +59,8 @@ export const QrCodePage: React.FC<QrCodePageProps> = ({ onTrocarPagina }) => {
   return (
     <div style={styles.container}>
       <div style={styles.form}>
-        <h1>QR Code</h1>
+        <span>Generate QR Code for</span>
+        <span>Google Authenticator</span>
         {/* Exibe o QR Code gerado */}
         <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
           <img src={qrValue} alt="QR Code 2FA" />
