@@ -1,5 +1,5 @@
 import styles from "./styles";
-import { useState, useRef, useEffect, type RefObject } from "react";
+import React, { useState, useRef, useEffect, type RefObject } from "react";
 
 /**
  * Props para o componente Authenticator.
@@ -73,6 +73,7 @@ export const Authenticator: React.FC<QrCodePageProps> = ({ onTrocarPagina }) => 
    * (Na arquitetura hexagonal, a chamada fetch seria delegada a um caso de uso ou serviço de aplicação.)
    */
   useEffect(() => {
+    // @ts-ignore
     if (values.every(v => v.length === 1)) {
       alert("Todos os campos preenchidos!");
       // Exemplo de request (infraestrutura):
