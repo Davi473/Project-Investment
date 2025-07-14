@@ -13,9 +13,9 @@ test("User API - Register User", async () => {
         })
     });
     expect(response.status).toBe(201);
-    const data = await response.json();
-    // expect(data).toHaveProperty("menssage");
-    // expect(data.menssage).toBe("Usuário criado com sucesso");
+    const data: any = await response.json();
+    expect(data).toHaveProperty("menssage");
+    expect(data.menssage).toBe("Usuário criado com sucesso");
 });
 
 test("User API - Login User", async () => {
@@ -39,10 +39,9 @@ test("User API - Login User", async () => {
         body: JSON.stringify(user)
     });
     expect(response.status).toBe(201);
-    const data = await response.json();
-    console.log(data);
-    // expect(data).toHaveProperty("menssage");
-    // expect(data.menssage).toBe("Usuário autenticado com sucesso");
-    // expect(data).toHaveProperty("token");
-    // expect(typeof data.token).toBe("string");
+    const data: any = await response.json();
+    expect(data).toHaveProperty("menssage");
+    expect(data.menssage).toBe("Usuário autenticado com sucesso");
+    expect(data).toHaveProperty("token");
+    expect(typeof data.token).toBe("string");
 });

@@ -11,7 +11,7 @@ export default class GenerateTotpSecret implements UseCase {
 
   async execute(input: Input): Promise<any> 
   {
-    const {userId, nickname, email} = input;
+    const {id, nickname, email} = input;
     
     const existingSecret = await this.userRepository.findByEmail(new Email(email));
     if (existingSecret === null) throw new Error("Usuário não encontrado");
@@ -34,7 +34,7 @@ export default class GenerateTotpSecret implements UseCase {
 }
 
 type Input = {
-  userId: string;
+  id: string;
   nickname: string;
   email: string;
 };

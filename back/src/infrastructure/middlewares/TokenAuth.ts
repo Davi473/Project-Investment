@@ -10,7 +10,6 @@ export function generateToken(payload: {}): string {
 
 export function tokenAuth(req: any, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
-
     if (!authHeader) {
         return res.status(401).json({ error: 'Token não informado' });
     }

@@ -15,6 +15,6 @@ export function UserAuth(): ParameterDecorator {
       constructor.routes[propertyKey] = {};
     if (!constructor.routes[propertyKey].parametros) 
       constructor.routes[propertyKey].parametros = [];
-    constructor.routes[propertyKey].parametros.push("userAuth")
+    constructor.routes[propertyKey].parametros.push("user")
   };
 }
