@@ -11,7 +11,8 @@ export class LoginUser implements UseCase {
         private userRepository: UserRepository
     ) {}
 
-    public async execute(input: Input): Promise<Output> {
+    public async execute(input: Input): Promise<Output> 
+    {
         const { email, password } = input;
         const emailValue = new Email(email);
         const existingUser = await this.userRepository.findByEmail(emailValue);

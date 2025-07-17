@@ -26,13 +26,14 @@ test("Register User", async () => {
 
 test("Email ja cadastrado", async () => {
     const registerUser = makeRegisterUser();
+    const fixedEmail = "john.doe@example.com";
     const userData = {
         nickname: "John Doe",
-        email: `${Math.random()}@example.com`,
+        email: fixedEmail,
         password: "123@Test"
     }
     await registerUser.execute(userData);
-    await expect(await registerUser.execute(userData))
+    await expect(registerUser.execute(userData))
         .rejects.toThrow("Usuário já existe");
 });
 
@@ -43,6 +44,6 @@ test("Nome curto", async () => {
         email: `${Math.random()}@example.com`,
         password: "123@Test"
     }
-    await expect(await registerUser.execute(userData))
-        .rejects.toThrow("Usuário já existe");
+    await expect(registerUser.execute(userData))
+        .rejects.toThrow("Nickname muito curto");
 });
