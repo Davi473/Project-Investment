@@ -3,7 +3,6 @@ const circleStyle = (color: string): React.CSSProperties => ({
     height: '20px',
     borderRadius: '50%',
     backgroundColor: color,
-    marginLeft: '8px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

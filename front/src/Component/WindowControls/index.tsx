@@ -5,12 +5,14 @@ import { Close } from './Components/Close';
 
 
 const baseStyle: React.CSSProperties = {
+  width: "68px",
   display: 'flex',
   alignItems: 'center',
-  padding: '5px',
+  paddingTop: '5px',
   position: 'absolute',
   top: 0,
   zIndex: 1000,
+  justifyContent: "space-between"
 };
 
 
@@ -28,7 +30,7 @@ export const WindowControls: React.FC = () => {
     <div
       style={
         isMac
-          ? { ...baseStyle, left: '5px', right: 'unset' }
+          ? { ...baseStyle, left: "5px", right: 'unset' }
           : { ...baseStyle, right: '5px', left: 'unset' }
       }
     >

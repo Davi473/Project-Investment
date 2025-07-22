@@ -22,6 +22,6 @@ const styles: any = {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
-        padding: "10px"
+        padding: "10px",
     }
 }
