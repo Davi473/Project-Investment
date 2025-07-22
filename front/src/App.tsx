@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { RegisterForm } from './Pages/Register';
+import { RegisterForm } from './PagesRegister/Register';
 import { WindowControls } from './Component/WindowControls';
-import { LoginForm } from './Pages/Login';
+import { LoginForm } from './PagesRegister/Login';
 import DragBar from './Component/WindowControls/DragBar';
-import { QrCodePage } from './Pages/QrCode';
-import { Authenticator } from './Pages/Authenticator';
+import { QrCodePage } from './PagesRegister/QrCode';
+import { Authenticator } from './PagesRegister/Authenticator';
+import { HomeForm } from './PagesHome';
 
 function App() {
-  const [paginaAtual, setPaginaAtual] = useState<string>("login");
+  const [paginaAtual, setPaginaAtual] = useState<string>("home");
 
    const renderPagina = () => {
     switch (paginaAtual) {
@@ -19,6 +20,8 @@ function App() {
         return <QrCodePage onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
       case "authenticator":
         return <Authenticator onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
+      case "home":
+        return <HomeForm onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
       default:
         return <LoginForm onTrocarPagina={(valor: string) => setPaginaAtual(valor)} />;
     }

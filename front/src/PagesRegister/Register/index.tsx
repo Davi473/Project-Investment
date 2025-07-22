@@ -1,3 +1,4 @@
+import ButtonEntry from "../../Component/Button";
 import styles from "./styles";
 import { useState } from "react";
 
@@ -63,8 +64,8 @@ export const RegisterForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
           onChange={(e) => setPassword(e.target.value)} value={password}
         />
 
-        <input type="button" value="Enter" style={styles.input}
-          onClick={() => registerUser()}
+        <ButtonEntry
+          output={() => registerUser()}
         />
 
         <span style={{ marginTop: "10px", color: "white", fontSize: "0.9em" }}>

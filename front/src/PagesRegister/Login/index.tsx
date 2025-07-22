@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles.ts';
+import ButtonEntry from '../../Component/Button/index.tsx';
 
 interface QrCodePageProps {
   onTrocarPagina: (pagina: string) => void;
@@ -49,8 +50,8 @@ export const LoginForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
           onChange={(e) => setPassword(e.target.value)} value={password}
         />
 
-        <input type="button" value="Enter" style={styles.input}
-          onClick={() => loginUser()}
+        <ButtonEntry
+          output={() => loginUser()}
         />
         
         <span style={{ marginTop: "10px", color: "white", fontSize: "0.9em" }}>
