@@ -1,3 +1,17 @@
+const values = {
+            title: "Bill List",
+            colunas: [{ 
+                    description: "Compra No Merdado", amount: "1050,34", 
+                    date: "30/06/2025", type: "Income", 
+                }, { 
+                    description: "Compra No Merdado", amount: "1050,34", 
+                    date: "30/06/2025", type: "Income", 
+                }, { 
+                    description: "Compra No Merdado", amount: "1050,34", 
+                    date: "30/06/2025", type: "Income", 
+                }]
+}
+
 function head() {
     return (
         <div style={styles.inputBody}>
@@ -40,12 +54,14 @@ function body(key: any, value: any) {
 }
 
 
-const ListOrderBill = ({ value }: any) => {
+const ListOrderBill = () => {
     return (
-        <div style={styles.container}>
-            <label style={styles.label}>{value.title}</label>
-            {head()}
-            {value.colunas.map((values: any, key: any) => body(key, values))}
+        <div style={{paddingTop: "50px"}}>
+            <div style={styles.container}>
+                <label style={styles.label}>{values.title}</label>
+                {head()}
+                {values.colunas.map((values: any, key: any) => body(key, values))}
+            </div>
         </div>
     );
 };

@@ -1,3 +1,12 @@
+const values = {
+    title: "Order List",
+    colunas: [{ 
+        name: "VALE", category: "Stock", 
+            quantity: "2.8000", average: "8,8", 
+            type: "Buy", date: "30/06/2025"
+        }]
+}
+
 function head() {
     return (
         <div style={styles.inputBody}>
@@ -26,8 +35,8 @@ function head() {
 function body(key: any, value: any) {
     console.log(value)
     return (
-        <div style={{ paddingTop: "5px"}}>
-            <div key={key} style={styles.input}>
+        <div key={key} style={{ paddingTop: "5px"}}>
+            <div style={styles.input}>
                 <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <small>{value.name}</small>
                 </div>
@@ -52,12 +61,14 @@ function body(key: any, value: any) {
 }
 
 
-const ListOrderInvestment = ({ value }: any) => {
+const ListOrderInvestment = () => {
     return (
-        <div style={styles.container}>
-            <label style={styles.label}>{value.title}</label>
-            {head()}
-            {value.colunas.map((values: any, key: any) => body(key, values))}
+        <div style={{paddingTop: "50px"}}>
+            <div style={styles.container}>
+                <label style={styles.label}>{values.title}</label>
+                {head()}
+                {values.colunas.map((values: any, key: any) => body(key, values))}
+            </div>
         </div>
     );
 };

@@ -1,26 +1,44 @@
+import { useDragScroll } from "../useDragScroll";
 import React from "react";
 
-const ResumeWallet: React.FC<any> = ({ value }: any) => {
+const ResumeWallet: React.FC<any> = ({ values, input }: any) => {
+    console.log(values)
     return (
-        <div style={styles.container}>
-            <div style={styles.input}>
-                <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                    <small>{value.title}</small>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <small>{value.column1}</small>
-                    <small>{value.columnValue1}</small>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <small>{value.column2}</small>
-                    <small>{value.columnValue2}</small>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <small>{value.column3}</small>
-                    <small>{value.columnValue3}</small>
-                </div>
+        <>
+            <label style={styles.label}>{input}</label>
+            <div ref={useDragScroll()}
+                className="scroll-container"
+                style={{
+                    width: "420px",
+                    display: "flex",
+                    overflowX: "auto",
+                    gap: "16px",
+                }}>
+                {
+                    values.map((value: any, key: any) => 
+                        <div key={key} style={styles.container}>
+                            <div style={styles.input}>
+                                <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                                    <small>{value.title}</small>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                    <small>{value.column1}</small>
+                                    <small>{value.columnValue1}</small>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                    <small>{value.column2}</small>
+                                    <small>{value.columnValue2}</small>
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column" }}>
+                                    <small>{value.column3}</small>
+                                    <small>{value.columnValue3}</small>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }                         
             </div>
-        </div>
+        </>
     );
 };
 
