@@ -29,7 +29,7 @@ export const Home: React.FC<any> = () => {
                 <div style={{width: "430px"}}>
                     <NavBar />
                 </div>
-                <div className="scroll-container" style={{width: "430px", maxHeight: "400px", overflowY: "auto", marginTop: "10px" }}>
+                <div className="scroll-container" style={{width: "430px", maxHeight: "500px", overflowY: "auto", marginTop: "10px" }}>
                     {output[0]}
                     {output[1]}
                     {output[2]}
