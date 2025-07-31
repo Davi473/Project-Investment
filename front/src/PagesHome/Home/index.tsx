@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavBar } from '../Navbar';
 import Greeting from './Componentes/Greeting';
-import ResumeWallet from '../../Component/ResumeWallet';
 import "./style.css";
 import ListOrderInvestment from '../ListOrderInvestment';
 import ListOrderBill from '../ListOrderBill';
+import TrelloBoard from './TrelloBoard';
 import Property from './Componentes/Property';
 import ListOfWallets from './Componentes/ListOfWallets';
 import MonthBill from './MonthBill';
@@ -21,22 +21,40 @@ const outputView = () =>  [
     <ListOrderBill />
 ]
 
+const configView = () => {
+    return (
+        <>
+            <TrelloBoard />
+        </>
+    )
+}
+
+
+
 export const Home: React.FC<any> = () => {
     const output = outputView()
+    const [config, setConfig] = React.useState(false);
     return (
         <>
             <div style={styles.container}>
                 <div style={{width: "430px"}}>
-                    <NavBar />
+                    <NavBar config={config} setConfig={setConfig}/>
                 </div>
                 <div className="scroll-container" style={{width: "430px", maxHeight: "500px", overflowY: "auto", marginTop: "10px" }}>
-                    {output[0]}
-                    {output[1]}
-                    {output[2]}
-                    {output[3]}
-                    {output[4]}
-                    {output[5]}
-                    {output[6]}
+                    {
+                        config ?
+                            configView() 
+                        :
+                            (<>
+                                {output[0]}
+                                {output[1]}
+                                {output[2]}
+                                {output[3]}
+                                {output[4]}
+                                {output[5]}
+                                {output[6]}
+                            </>)
+                    }
                 </div>
             </div>
         </>

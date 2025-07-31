@@ -1,22 +1,15 @@
-import { useState } from "react";
+import React from "react";
 
-const HamburgerMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const togglePopup = () => setIsOpen(!isOpen);
+const HamburgerMenu: React.FC<any> = ({ config, setConfig }: any) => {
+  const togglePopup = () => setConfig(!config);
 
   return (
     <>
       <div style={styles.container} onClick={togglePopup}>
-        <div style={{ ...styles.line, ...(isOpen ? styles.line1Open : styles.line1) }} />
-        <div style={{ ...styles.line, ...(isOpen ? styles.line2Open : styles.line2) }} />
-        <div style={{ ...styles.line, ...(isOpen ? styles.line3Open : styles.line3) }} />
+        <div style={{ ...styles.line, ...(config ? styles.line1Open : styles.line1) }} />
+        <div style={{ ...styles.line, ...(config ? styles.line2Open : styles.line2) }} />
+        <div style={{ ...styles.line, ...(config ? styles.line3Open : styles.line3) }} />
       </div>
-
-      {isOpen && (
-        <div style={styles.popupOverlay} onClick={togglePopup}>
-          {/* Conteúdo do popup */}
-        </div>
-      )}
     </>
   );
 };

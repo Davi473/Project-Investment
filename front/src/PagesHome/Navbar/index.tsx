@@ -1,7 +1,7 @@
 import React from 'react';
 import HamburgerMenu from '../HamburgerMenu';
 
-export const NavBar: React.FC<any> = () => {
+export const NavBar: React.FC<any> = ({config, setConfig}: any) => {
     return (
         <div style={styles.input}>
             <div style={styles.divLabel}>
@@ -10,7 +10,7 @@ export const NavBar: React.FC<any> = () => {
                 <label style={styles.label}>BILL</label>
             </div>
             <div style={styles.divLabel}>
-                <HamburgerMenu />
+                <HamburgerMenu config={config} setConfig={setConfig}/>
             </div>
         </div>
     );
