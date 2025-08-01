@@ -37,5 +37,19 @@ const authenticator = new Authenticator(userRepository);
 const qrCodeController = new QrCodeController(generateTotpSecret, authenticator);
 HTTP.registerRoutes(qrCodeController);
 
+//=============================
+// Wallet Controller
+//=============================
+import { InMemoryWalletInvestmentRepository } from "./infrastructure/repositories/InMemoryWalletInvestmentRepository";
+import { CreateUseCase } from "./application/usecase/walletInvestiment/CreateUseCase";
+import { GetUseCase } from "./application/usecase/walletInvestiment/GetUseCase";
+import WalletController from "./infrastructure/controllers/WalletController";
+
+const walletInvestmentRepository = new InMemoryWalletInvestmentRepository()
+const walletUseCase = new CreateUseCase(walletInvestmentRepository, uuidGen);
+const getWalletUseCase = new GetUseCase(walletInvestmentRepository);
+const walletController = new WalletController(walletUseCase, getWalletUseCase);
+HTTP.registerRoutes(walletController);
+
 HTTP.listen(PORT);
 
