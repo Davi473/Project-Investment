@@ -15,11 +15,7 @@ async function fetchQrCode(token: string | null): Promise<{ qrCode: string; secr
       'Authorization': `Bearer ${token}`,
     },
   });
-  console.log(response);
-  // if (!response.ok) {
-  //   throw new Error('Failed to fetch QR code');
-  // }
-  return response.json();
+  return await response.json();
 }
 
 interface QrCodePageProps {
@@ -38,23 +34,25 @@ export const QrCodePage: React.FC<QrCodePageProps> = ({ onTrocarPagina }) => {
   const [secret, setSecret] = useState('');
 
   useEffect(() => {
-    // Recupera o token salvo no localStorage
-    const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Token não encontrado. Faça login novamente.');
-      onTrocarPagina('login');
-      return;
-    }
-    // Busca o QR Code e o segredo usando o service
-    fetchQrCode(token)
-      .then(data => {
-        setQrValue(data.qrCode);
-        setSecret(data.secret);
-      })
-      .catch(error => {
-        console.error('Error fetching QR code:', error);
-        alert('Erro ao gerar o QR Code. Por favor, tente novamente.');
-      });
+    (async () => {
+      // Recupera o token salvo no localStorage
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Token não encontrado. Faça login novamente.');
+        onTrocarPagina('login');
+        return;
+      }
+      // Busca o QR Code e o segredo usando o service
+      fetchQrCode(token)
+        .then(data => {
+          setQrValue(data.qrCode);
+          setSecret(data.secret);
+        })
+        .catch(error => {
+          console.error('Error fetching QR code:', error);
+          alert('Erro ao gerar o QR Code. Por favor, tente novamente.');
+        });
+    })();
   }, [onTrocarPagina]);
 
   return (

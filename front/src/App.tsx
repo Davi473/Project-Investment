@@ -8,7 +8,7 @@ import { Authenticator } from './PagesRegister/Authenticator';
 import { HomeForm } from './PagesHome';
 
 function App() {
-  const [paginaAtual, setPaginaAtual] = useState<string>("home");
+  const [paginaAtual, setPaginaAtual] = useState<string>("login");
 
    const renderPagina = () => {
     switch (paginaAtual) {

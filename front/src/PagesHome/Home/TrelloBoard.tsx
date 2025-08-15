@@ -41,6 +41,9 @@ export default function TrelloBoard() {
             className="trello-card"
             key={card.id}
             draggable
+            onClick={() => {
+              console.log(cards);
+            }}
             onDragStart={() => onDragStart(idx)}
             onDragOver={onDragOver}
             onDrop={() => onDrop(idx)}

@@ -1,4 +1,5 @@
 import ButtonEntry from "../../Component/Button";
+import Popap from "../../Component/Popap";
 import styles from "./styles";
 import { useState } from "react";
 
@@ -10,11 +11,13 @@ export const RegisterForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
+  const [popupOutput, setPopupOutput] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   const registerUser = async () => 
   {
     if(!email || !nickname || !password) {
-      alert("Por favor, preencha todos os campos.");
+      setPopupMessage("Por favor, preencha todos os campos.");
       return;
     }
     try {
@@ -31,21 +34,22 @@ export const RegisterForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
       }); 
       console.log(reponse);
       if (reponse.status === 201) {
-        const data = await reponse.json();
-        alert(data.menssage);
         onTrocarPagina("login");
       } else {
         const errorData = await reponse.json();
-        alert(errorData.message || "Erro ao registrar usuário");
+        setPopupMessage(errorData.message || "Erro ao registrar usuário");
+        setPopupOutput(true);
       }
     } catch (error) {
       console.error("Erro ao registrar usuário:", error);
-      alert("Erro ao registrar usuário. Tente novamente mais tarde.");
+      setPopupMessage("Erro ao registrar usuário. Tente novamente mais tarde.");
+      setPopupOutput(true);
     }
   }
 
   return (
     <div style={styles.container}>
+      {popupOutput && <Popap output={popupMessage} close={setPopupOutput} />}
       <div style={styles.form}>
         <h1>Register</h1>
 
