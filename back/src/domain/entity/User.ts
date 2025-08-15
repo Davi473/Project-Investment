@@ -7,7 +7,6 @@ import { Currency } from "../vo/Currency";
 export class User 
 {
   private _isEmailVerified: boolean;
-  private _totpSecret: string | null = null;
 
   constructor(
     readonly id: string,
@@ -18,10 +17,8 @@ export class User
     readonly updatedAt: DateString,
     readonly currency: Currency,
     isEmailVerified = false,
-    totpSecret: string | null = null
   ) {
     this._isEmailVerified = isEmailVerified;
-    this._totpSecret = totpSecret;
   }
 
   get isEmailVerified(): boolean 
@@ -29,29 +26,9 @@ export class User
     return this._isEmailVerified;
   }
 
-  get totpSecret(): boolean 
-  {
-    return this._totpSecret ? true : false;
-  }
-
   verifyEmail() 
   {
     this._isEmailVerified = true;
-    this.updatedAt.now();
-  }
-
-  enableTwoFactorAuth(secret: string) 
-  {
-    if (this._totpSecret) {
-      throw new Error("2FA já está habilitado.");
-    }
-    this._totpSecret = secret;
-    this.updatedAt.now();
-  }
-
-  disableTwoFactorAuth() 
-  {
-    this._totpSecret = null;
     this.updatedAt.now();
   }
 }

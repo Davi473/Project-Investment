@@ -15,13 +15,10 @@ export default class GenerateTotpSecret implements UseCase {
     
     const existingSecret = await this.userRepository.findByEmail(new Email(email));
     if (existingSecret === null) throw new Error("Usuário não encontrado");
-    if (existingSecret.totpSecret) throw new Error("2FA já está configurado");
     const secret: any = speakeasy.generateSecret({
         name: `Wallet (${existingSecret.nickname})`
     });
     try {
-        existingSecret.enableTwoFactorAuth(secret.base32);
-        await this.userRepository.save(existingSecret);
         const qrCodeDataURL = await QRCode.toDataURL(secret.otpauth_url);
         return {
             qrCode: qrCodeDataURL,
