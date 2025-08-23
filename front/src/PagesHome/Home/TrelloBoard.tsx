@@ -1,18 +1,7 @@
 import React from 'react';
 import './TrelloBoard.css';
 
-
-
-const initialCards = [
-  { id: 1, text: 'Estudar React' },
-  { id: 2, text: 'Ler documentação do projeto' },
-  { id: 3, text: 'Implementar tela de login' },
-  { id: 4, text: 'Configurar ambiente' },
-];
-
-
-export default function TrelloBoard() {
-  const [cards, setCards] = React.useState(initialCards);
+export default function TrelloBoard({output, setOutput}: any) {
   const [draggedIdx, setDraggedIdx] = React.useState<number | null>(null);
 
   const onDragStart = (idx: number) => {
@@ -25,10 +14,10 @@ export default function TrelloBoard() {
 
   const onDrop = (idx: number) => {
     if (draggedIdx === null || draggedIdx === idx) return;
-    const newCards = [...cards];
+    const newCards = [...output];
     const [removed] = newCards.splice(draggedIdx, 1);
     newCards.splice(idx, 0, removed);
-    setCards(newCards);
+    setOutput(newCards);
     setDraggedIdx(null);
   };
 
@@ -36,20 +25,20 @@ export default function TrelloBoard() {
     <div className="trello-board" style={{ justifyContent: 'center' }}>
       <div className="trello-column">
         <div className="trello-column-title">Lista de Tarefas</div>
-        {cards.map((card, idx) => (
+        {output.map((card: any, idx: any) => (
           <div
             className="trello-card"
             key={card.id}
             draggable
             onClick={() => {
-              console.log(cards);
+              console.log(output);
             }}
             onDragStart={() => onDragStart(idx)}
             onDragOver={onDragOver}
             onDrop={() => onDrop(idx)}
             style={{ opacity: draggedIdx === idx ? 0.5 : 1, cursor: 'grab' }}
           >
-            {card.text}
+            <span className="trello-card-text">{card.text}</span>
           </div>
         ))}
       </div>

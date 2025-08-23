@@ -28,7 +28,7 @@ export const LoginForm: React.FC<QrCodePageProps> = ({onTrocarPagina}) => {
     if (reponse.status === 201) {
       const data = await reponse.json();
       localStorage.setItem("token", data.token);
-      onTrocarPagina("qrcode");
+      onTrocarPagina("home");
     } else {
       const errorData = await reponse.json();
       alert(errorData.message || "Erro ao fazer login");

@@ -12,47 +12,44 @@ import ListOfBill from './Componentes/ListaOfBill';
 
 
 const outputView = () =>  [
-    <Greeting name={"Fulano"} />,
-    <Property />,
-    <ListOfWallets />,
-    <ListOrderInvestment />,
-    <MonthBill />,
-    <ListOfBill />,
-    <ListOrderBill />
+    { id: 1, text: "Property", item: <Property /> },
+    { id: 2, text: "List Of Wallets", item: <ListOfWallets /> },
+    { id: 3, text: "List Order Investment", item: <ListOrderInvestment />, },
+    { id: 4, text: "Month Bill", item: <MonthBill /> },
+    { id: 5, text: "List Of Bill", item: <ListOfBill /> },
+    { id: 6, text: "List Order Bill", item: <ListOrderBill /> },
 ]
 
-const configView = () => {
-    return (
-        <>
-            <TrelloBoard />
-        </>
-    )
-}
-
-
-
 export const Home: React.FC<any> = () => {
-    const output = outputView()
+    const [output, setOutput] = React.useState(outputView());
     const [config, setConfig] = React.useState(false);
+
+    const configView = () => {
+        return (
+            <>
+                <TrelloBoard output={output} setOutput={setOutput} />
+            </>
+        )
+    }
     return (
         <>
             <div style={styles.container}>
                 <div style={{width: "430px"}}>
                     <NavBar config={config} setConfig={setConfig}/>
                 </div>
-                <div className="scroll-container" style={{width: "430px", maxHeight: "500px", overflowY: "auto", marginTop: "10px" }}>
+                <div className="scroll-container" style={{width: "430px", overflowY: "auto", marginTop: "10px", marginBottom: "50px"}}>
                     {
                         config ?
                             configView() 
                         :
                             (<>
-                                {output[0]}
-                                {output[1]}
-                                {output[2]}
-                                {output[3]}
-                                {output[4]}
-                                {output[5]}
-                                {output[6]}
+                                <Greeting name={"Fulano"} />
+                                {output[0].item}
+                                {output[1].item}
+                                {output[2].item}
+                                {/* {output[3].item}
+                                {output[4].item}
+                                {output[5].item} */}
                             </>)
                     }
                 </div>
