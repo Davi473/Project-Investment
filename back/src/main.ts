@@ -10,14 +10,14 @@ const PORT = 3000;
 //=============================
 import { UUIDGeneratorImpl } from "./domain/vo/UUIDGeneratorImpl";
 import { PasswordHasherImpl } from "./domain/vo/PasswordHasherImpl";
-import { InMemoryUserRepository } from "./infrastructure/repositories/InMemoryUserRepository";
+import { InMemoryUserRepository, InJSONUserRepository } from "./infrastructure/repositories/InMemoryUserRepository";
 import { RegisterUser } from "./application/usecase/user/RegisterUser";
 import { LoginUser } from "./application/usecase/user/LoginUser";
 import UserController from "./infrastructure/controllers/UserController";
 
 const uuidGen = new UUIDGeneratorImpl();
 const passwordHasher = new PasswordHasherImpl();
-const userRepository = new InMemoryUserRepository();
+const userRepository = new InJSONUserRepository();
 
 const registerUser = new RegisterUser(uuidGen, passwordHasher, userRepository);
 const loginUser = new LoginUser(passwordHasher, userRepository);
@@ -54,7 +54,7 @@ HTTP.registerRoutes(walletController);
 //=============================
 // Investment Controller
 //=============================
-import { InMemoryInvestmentRepository } from "./infrastructure/repositories/InMemoryInvestmentRepository";
+import { InMemoryInvestmentRepository } from "./infrastructure/repositories/inMemoryInvestmentRepository";
 import { SaveUseCase } from "./application/usecase/Investment/SaveUseCase";
 import { GetUseCase as InvestmentGetUseCase } from "./application/usecase/Investment/GetUseCase";
 import InvestmentController from "./infrastructure/controllers/InvestmentController";

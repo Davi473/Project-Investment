@@ -3,7 +3,7 @@ import { PasswordHasher } from "../ports/PasswordHasher";
 export class Hash {
   private readonly value: string;
 
-  private constructor(hash: string) {
+  constructor(hash: string) {
     this.value = hash;
   }
 

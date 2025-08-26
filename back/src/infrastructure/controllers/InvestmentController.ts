@@ -11,7 +11,7 @@ export default class InvestmentController
         private getUseCase: GetUseCase
     ) {}
     
-    @Auth()
+    // @Auth()
     @Post("/:idWallet/save")
     async save(
         @Body() investment: any, 
