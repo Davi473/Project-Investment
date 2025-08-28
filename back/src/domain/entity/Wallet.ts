@@ -1,6 +1,6 @@
 import { Currency } from "../vo/Currency";
+import { DateString } from "../vo/DateString";
 import { Nickname } from "../vo/Nickname";
-import crypto from "crypto";
 
 export class Wallet 
 {
@@ -9,7 +9,7 @@ export class Wallet
         readonly idUser: string,
         readonly name: Nickname,
         readonly currency: Currency,
-        readonly createdAt: Date,
+        readonly createdAt: DateString,
         readonly type: string,
     ) {}
 }

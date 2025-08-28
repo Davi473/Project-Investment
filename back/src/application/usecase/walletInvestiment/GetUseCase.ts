@@ -8,8 +8,8 @@ export class GetUseCase implements UseCase {
 
     public async execute(input: Input): Promise<Output> 
     {
-        const { idUser } = input;
-        const wallets = await this.walletInvestmentRepository.findByIdUser(idUser);
+        const { id } = input;
+        const wallets = await this.walletInvestmentRepository.findByIdUser(id);
         return { wallets: wallets ? wallets.map(wallet => ({
                 id: wallet.id,
                 name: wallet.name.toString(),
@@ -20,9 +20,8 @@ export class GetUseCase implements UseCase {
 }
 
 type Input = {
-    idUser: string,
+    id: string,
     nickname: string
-    currency?: string,
 }   
 
 type Output = {

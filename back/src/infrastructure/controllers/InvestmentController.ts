@@ -11,27 +11,24 @@ export default class InvestmentController
         private getUseCase: GetUseCase
     ) {}
     
-    // @Auth()
-    @Post("/:idWallet/save")
+    @Auth()
+    @Post("/:idWallet")
     async save(
         @Body() investment: any, 
-        @Params() idWallet: string, 
+        @Params() wallet: any, 
         res: any
     ): Promise<any>
     {   
-        console.log("InvestmentController - save");
-        console.log("Investment:", investment);
-        console.log("Wallet ID:", idWallet);
-        // const input = user;
-        // const output = await this.generateTotpSecret.execute(input);
-        // res.status(201).json(output);
+        const input = { ...investment, idWallet: wallet.idWallet };
+        const output = await this.saveUseCase.execute(input);
+        res.status(201).json(output);
     }
 
 
-    @Get("/:idWallet/get")
-    async get(@Params() idWallet: string, res: any): Promise<any>
+    @Get("/:idWallet")
+    async get(@Params() wallet: any, res: any): Promise<any>
     {
-        const input = { idWallet };
+        const input = { idWallet: wallet.idWallet };
         const output = await this.getUseCase.execute(input);
         res.status(201).json(output);
     }

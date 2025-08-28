@@ -34,7 +34,6 @@ export class InJSONUserRepository implements UserRepository
       createdAt: user.createdAt.toString(),
       updatedAt: user.updatedAt.toString(),
       currency: user.currency.toString(),
-      isEmailVerified: user.isEmailVerified
     });
     await this.writeJSONFile(users);
   }
@@ -52,7 +51,6 @@ export class InJSONUserRepository implements UserRepository
       new DateString(userData.createdAt),
       new DateString(userData.updatedAt),
       new Currency(userData.currency),
-      userData.isEmailVerified
     );
   }
 

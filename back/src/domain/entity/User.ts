@@ -6,8 +6,6 @@ import { Currency } from "../vo/Currency";
 
 export class User 
 {
-  private _isEmailVerified: boolean;
-
   constructor(
     readonly id: string,
     readonly nickname: Nickname,
@@ -16,19 +14,5 @@ export class User
     readonly createdAt: DateString,
     readonly updatedAt: DateString,
     readonly currency: Currency,
-    isEmailVerified = false,
-  ) {
-    this._isEmailVerified = isEmailVerified;
-  }
-
-  get isEmailVerified(): boolean 
-  {
-    return this._isEmailVerified;
-  }
-
-  verifyEmail() 
-  {
-    this._isEmailVerified = true;
-    this.updatedAt.now();
-  }
+  ) {}
 }

@@ -1,6 +1,7 @@
 import { Wallet } from "../../../domain/entity/Wallet";
 import { UUIDGenerator } from "../../../domain/ports/UUIDGenerator";
 import { Currency } from "../../../domain/vo/Currency";
+import { DateString } from "../../../domain/vo/DateString";
 import { Nickname } from "../../../domain/vo/Nickname";
 import WalletInvestmentRepository from "../../repositories/WalletInvestmentRepository";
 import UseCase from "../UseCase";
@@ -13,13 +14,13 @@ export class CreateUseCase implements UseCase {
 
     public async execute(input: Input): Promise<Output> 
     {
-        const { idUser, nickname, currency } = input;
+        const { idUser, name, currency } = input;
         const wallet = new Wallet(
             this.uuidGenerator.generate(), 
             idUser, 
-            new Nickname(nickname),
+            new Nickname(name),
             new Currency(currency ? currency : "USD"),
-            new Date(),
+            new DateString(new Date().toISOString()),
             "i"
         );
         this.walletInvestmentRepository.save(wallet);
@@ -29,7 +30,7 @@ export class CreateUseCase implements UseCase {
 
 type Input = {
     idUser: string,
-    nickname: string
+    name: string
     currency?: string,
 }   
 

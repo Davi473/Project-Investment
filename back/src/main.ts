@@ -40,12 +40,11 @@ HTTP.registerRoutes(userController);
 //=============================
 // Wallet Controller
 //=============================
-import { InMemoryWalletInvestmentRepository } from "./infrastructure/repositories/InMemoryWalletInvestmentRepository";
+import { InMemoryWalletInvestmentRepository, InJSONWalletInvestmentRepository } from "./infrastructure/repositories/InMemoryWalletInvestmentRepository";
 import { CreateUseCase } from "./application/usecase/walletInvestiment/CreateUseCase";
 import { GetUseCase } from "./application/usecase/walletInvestiment/GetUseCase";
 import WalletController from "./infrastructure/controllers/WalletController";
-
-const walletInvestmentRepository = new InMemoryWalletInvestmentRepository()
+const walletInvestmentRepository = new InJSONWalletInvestmentRepository()
 const walletUseCase = new CreateUseCase(walletInvestmentRepository, uuidGen);
 const getWalletUseCase = new GetUseCase(walletInvestmentRepository);
 const walletController = new WalletController(walletUseCase, getWalletUseCase);
@@ -54,11 +53,11 @@ HTTP.registerRoutes(walletController);
 //=============================
 // Investment Controller
 //=============================
-import { InMemoryInvestmentRepository } from "./infrastructure/repositories/inMemoryInvestmentRepository";
+import { InMemoryInvestmentRepository, InJSONInvestmentRepository } from "./infrastructure/repositories/inMemoryInvestmentRepository";
 import { SaveUseCase } from "./application/usecase/Investment/SaveUseCase";
 import { GetUseCase as InvestmentGetUseCase } from "./application/usecase/Investment/GetUseCase";
 import InvestmentController from "./infrastructure/controllers/InvestmentController";
-const investmentRepository = new InMemoryInvestmentRepository();
+const investmentRepository = new InJSONInvestmentRepository();
 const saveInvestmentUseCase = new SaveUseCase(uuidGen, investmentRepository);
 const getInvestmentUseCase = new InvestmentGetUseCase(investmentRepository);
 const investmentController = new InvestmentController(saveInvestmentUseCase, getInvestmentUseCase);

@@ -15,7 +15,7 @@ export default class WalletController
     @Post()
     async create(@Body() wallet: any, @UserAuth() user: any, res: any): Promise<any>
     {
-        const input = { ...wallet, ...user };
+        const input = { ...wallet, idUser: user.id };
         const output = await this.createWallet.execute(input);
         res.status(201).json(output);
     }

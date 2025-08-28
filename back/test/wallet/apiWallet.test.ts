@@ -13,27 +13,37 @@ test("Wallet API - Create Wallet", async () => {
         },
         body: JSON.stringify(user)
     });
-    const responseUser: any = await fetch("http://localhost:3000/users", {
+    let responseUser: any = await fetch("http://localhost:3000/users", {
         method: "PUT",
         headers: {
         "Content-Type": "application/json"
         },
         body: JSON.stringify(user)
     });
-    const response = await fetch("http://localhost:3000/wallet", {
+    responseUser = await responseUser.json();
+    let responseWallet: any = await fetch("http://localhost:3000/wallet", {
         method: "POST",
         headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${responseUser.data.token}`
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${responseUser.token}`
         },
         body: JSON.stringify({
             name: "Santander",
         })
     });
-    expect(response.status).toBe(201);
-    const data: any = await response.json();
-    expect(data).toHaveProperty("menssage");
-    expect(data.menssage).toBe("Wallet criada com sucesso.");
+    responseWallet = await responseWallet.json();
+    expect(responseWallet).toHaveProperty("menssage");
+    expect(responseWallet.menssage).toBe("Wallet criada com sucesso.");
+
+    let walletGet: any = await fetch("http://localhost:3000/wallet", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${responseUser.token}`
+        }
+    });
+    walletGet = await walletGet.json();
+    expect(walletGet).toHaveProperty("wallets");
 });
 
 // test("User API - Login User", async () => {
