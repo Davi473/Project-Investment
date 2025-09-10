@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavBar } from '../Navbar';
 import Greeting from './Componentes/Greeting';
 import "./style.css";
@@ -10,19 +10,37 @@ import ListOfWallets from './Componentes/ListOfWallets';
 import MonthBill from './MonthBill';
 import ListOfBill from './Componentes/ListaOfBill';
 
-
-const outputView = () =>  [
-    { id: 1, text: "Property", item: <Property /> },
-    { id: 2, text: "List Of Wallets", item: <ListOfWallets /> },
-    { id: 3, text: "List Order Investment", item: <ListOrderInvestment />, },
-    { id: 4, text: "Month Bill", item: <MonthBill /> },
-    { id: 5, text: "List Of Bill", item: <ListOfBill /> },
-    { id: 6, text: "List Order Bill", item: <ListOrderBill /> },
-]
-
 export const Home: React.FC<any> = () => {
-    const [output, setOutput] = React.useState(outputView());
     const [config, setConfig] = React.useState(false);
+    const [wallets, setWallets] = React.useState<any>();
+
+    const [propertyData, setPropertyData] = useState<any>();
+
+    useEffect(() => {
+        const init = async () => {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`http://localhost:3000/wallet`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }});
+            console.log(await response.json());
+            setWallets(await response.json());
+        };
+        init();
+    }, [wallets]);
+
+    const outputView =  [
+        { id: 1, text: "Property", item: <Property /> },
+        { id: 2, text: "List Of Wallets", item: <ListOfWallets wallets={wallets} /> },
+        { id: 3, text: "List Order Investment", item: <ListOrderInvestment />, },
+        // { id: 4, text: "Month Bill", item: <MonthBill /> },
+        // { id: 5, text: "List Of Bill", item: <ListOfBill  /> },
+        // { id: 6, text: "List Order Bill", item: <ListOrderBill /> },
+    ]
+
+    const [output, setOutput] = useState(outputView);
 
     const configView = () => {
         return (

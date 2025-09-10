@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const values = {
     title: "Order List",
     colunas: [{ 
@@ -62,6 +64,22 @@ function body(key: any, value: any) {
 
 
 const ListOrderInvestment = () => {
+    const [listInvestment, setListInvestment] = useState<any>();
+    // useEffect(() => {
+    //     const init = async () => {
+    //         const token = localStorage.getItem("token");
+    //         const response = await fetch("http://localhost:3000/investment", {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": `Bearer ${token}`
+    //             }
+    //         });
+    //         setListInvestment(await response.json());
+    //     }
+    //     init();
+    // },[listInvestment]);
+
     return (
         <div style={{paddingTop: "50px"}}>
             <div style={styles.container}>

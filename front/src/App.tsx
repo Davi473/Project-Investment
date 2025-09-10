@@ -8,7 +8,7 @@ import DragBar from './Component/WindowControls/DragBar';
 import { HomeForm } from './PagesHome';
 
 function App() {
-  const [paginaAtual, setPaginaAtual] = useState<string>("login");
+  const [paginaAtual, setPaginaAtual] = useState<string>("home");
 
    const renderPagina = () => {
     switch (paginaAtual) {

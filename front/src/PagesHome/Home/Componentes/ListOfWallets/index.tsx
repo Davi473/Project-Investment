@@ -11,7 +11,23 @@ const resumeWalletInvestment = {
 }
 const resumeWalletInvestments = [resumeWalletInvestment, resumeWalletInvestment, resumeWalletInvestment, resumeWalletInvestment];
 
-const ListOfWallets = () => {
+const ListOfWallets = ({wallets}: any) => {
+    // const [investment, setInvestment] = useState<any>();
+    console.log(wallets);
+    
+    // useEffect(() => {
+    //     const init = async () => {
+    //         const token = localStorage.getItem("token");
+    //         await fetch(`http://localhost:3000/investment/${idWallet}`, {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Authorization": `Bearer ${token}`
+    //         }});
+    //     };
+    //     init();
+    // }, [investment]);
+
     return (
         <div style={{paddingTop: "50px"}}>
             <ResumeWallet values={resumeWalletInvestments} input={"List Of Wallets"}/>

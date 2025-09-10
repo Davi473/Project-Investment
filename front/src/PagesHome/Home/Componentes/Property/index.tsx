@@ -1,6 +1,11 @@
 import Resume from "../../../../Component/Resume";
 
-const Property = () => {
+type Input = {
+    inputValue: number,
+    
+}
+
+const Property = ({values}: any) => {
     return (
         <div>
             <Resume value={{
