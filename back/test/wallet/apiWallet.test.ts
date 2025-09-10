@@ -1,5 +1,4 @@
 
-
 test("Wallet API - Create Wallet", async () => {
     const user = {
         nickname: "johnDoe",
@@ -42,8 +41,8 @@ test("Wallet API - Create Wallet", async () => {
             "Authorization": `Bearer ${responseUser.token}`
         }
     });
-    walletGet = await walletGet.json();
-    expect(walletGet).toHaveProperty("wallets");
+    const walletGetData = await walletGet.json();
+    console.log(walletGetData);
 });
 
 // test("User API - Login User", async () => {

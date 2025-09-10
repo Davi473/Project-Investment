@@ -55,7 +55,6 @@ export class InJSONWalletInvestmentRepository implements WalletInvestmentReposit
   async findByIdUser(idUser: string): Promise<Wallet[] | null> {
     const wallets = await this.readJSONFile();
 
-    // ⚠️ corrigido: agora pega TODOS wallets do usuário
     const walletsData = wallets.filter((u: any) => u.idUser === idUser);
 
     if (walletsData.length === 0) return null;

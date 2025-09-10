@@ -59,7 +59,7 @@ Criar nova wallet
 **Body JSON:**
 ```json
 {
-  "nickname": "Santander",
+  "name": "Santander",
   "currency": "USD"
 }
 ```
@@ -68,6 +68,53 @@ Criar nova wallet
 Buscar todas as wallets
 
 Authorization: Bearer <seu_token_aqui>
+
+Response
+```json
+{
+  "id": "85erwer-wer588",
+  "name": "Santander",
+  "currency": "USD"
+}
+```
+
+### ✅ Investment
+
+#### `POST /investment/:idWallet`
+Criar nova wallet
+**Body JSON:**
+```json
+{
+  "idWallet": "string",
+  "name": "string",
+  "category": "string",
+  "buy": "boolean",
+  "quantity": "number",
+  "average": "number",
+  "created": "string",
+  "currency": "string",
+}
+```
+
+#### `Get /investment/:idWallet`
+Buscar todas as wallets
+
+Authorization: Bearer <seu_token_aqui>
+
+Response
+```json
+{
+  "id": "string",
+  "nickname": "string",
+  "date": "string",
+  "quantity": "number",
+  "average": "number",
+  "valueTotal": "number",
+  "type":"buy / sell",
+  "currency": "string",
+  "category": "string"
+}
+```
 
 ---
 ## ⚙️ Instalação

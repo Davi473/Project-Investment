@@ -44,8 +44,7 @@ test("Wallet API - Create Wallet", async () => {
     });
     walletGet = await walletGet.json();
     expect(walletGet).toHaveProperty("wallets");
-    console.log(walletGet.wallets);
-    let investment = await fetch(`http://localhost:3000/investment/${walletGet.wallets[0].id}`, {
+    await fetch(`http://localhost:3000/investment/${walletGet.wallets[0].id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -53,12 +52,37 @@ test("Wallet API - Create Wallet", async () => {
         },
         body: JSON.stringify({
             name: "VALE",
-            idCategory: "2",
+            category: "Stock",
             buy: true,
             quantity: 3.8,
             average: 9.80,
             created: "2023-10-10",
-            idCurrency: "3"
+            currency: "USD"
         })
     });
+    await fetch(`http://localhost:3000/investment/${walletGet.wallets[0].id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${responseUser.token}`
+        },
+        body: JSON.stringify({
+            name: "VALE",
+            category: "Stock",
+            buy: true,
+            quantity: 1.5,
+            average: 10.5,
+            created: "2023-10-10",
+            currency: "USD"
+        })
+    });
+    let investment = await fetch(`http://localhost:3000/investment/${walletGet.wallets[0].id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${responseUser.token}`
+        },
+    });
+    const investmentData = await investment.json();
+    console.log(investmentData);
 });

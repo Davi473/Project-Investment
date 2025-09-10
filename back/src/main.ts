@@ -17,7 +17,7 @@ import UserController from "./infrastructure/controllers/UserController";
 
 const uuidGen = new UUIDGeneratorImpl();
 const passwordHasher = new PasswordHasherImpl();
-const userRepository = new InJSONUserRepository();
+const userRepository = new InMemoryUserRepository();
 
 const registerUser = new RegisterUser(uuidGen, passwordHasher, userRepository);
 const loginUser = new LoginUser(passwordHasher, userRepository);
@@ -44,7 +44,7 @@ import { InMemoryWalletInvestmentRepository, InJSONWalletInvestmentRepository } 
 import { CreateUseCase } from "./application/usecase/walletInvestiment/CreateUseCase";
 import { GetUseCase } from "./application/usecase/walletInvestiment/GetUseCase";
 import WalletController from "./infrastructure/controllers/WalletController";
-const walletInvestmentRepository = new InJSONWalletInvestmentRepository()
+const walletInvestmentRepository = new InMemoryWalletInvestmentRepository()
 const walletUseCase = new CreateUseCase(walletInvestmentRepository, uuidGen);
 const getWalletUseCase = new GetUseCase(walletInvestmentRepository);
 const walletController = new WalletController(walletUseCase, getWalletUseCase);
@@ -57,7 +57,7 @@ import { InMemoryInvestmentRepository, InJSONInvestmentRepository } from "./infr
 import { SaveUseCase } from "./application/usecase/Investment/SaveUseCase";
 import { GetUseCase as InvestmentGetUseCase } from "./application/usecase/Investment/GetUseCase";
 import InvestmentController from "./infrastructure/controllers/InvestmentController";
-const investmentRepository = new InJSONInvestmentRepository();
+const investmentRepository = new InMemoryInvestmentRepository();
 const saveInvestmentUseCase = new SaveUseCase(uuidGen, investmentRepository);
 const getInvestmentUseCase = new InvestmentGetUseCase(investmentRepository);
 const investmentController = new InvestmentController(saveInvestmentUseCase, getInvestmentUseCase);

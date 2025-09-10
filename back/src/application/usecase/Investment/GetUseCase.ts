@@ -16,24 +16,23 @@ export class GetUseCase implements UseCase
         return {
             investments: investments ? investments.map(investment => ({
                 id: investment.id,
-                idWallet: investment.idWallet,
                 nickname: investment.name.toString(),
                 date: investment.created.toString(),
                 quantity: investment.quantity,
                 average: investment.average,
                 valueTotal: investment.valueTotal(),
-                type: investment.buy ? "buy" : "sell"
+                type: investment.buy ? "buy" : "sell",
+                currency: investment.currency,
+                category: investment.category
             })) : []
         };
     }
 }
 
 type Input = {
-    idWallet: string,
+    idWallet: string
 }   
 
 type Output = {
-    investments: {
-
-    }
+    investments: {}
 };

@@ -14,11 +14,12 @@ export class SaveUseCase implements UseCase
 
     public async execute(input: Input): Promise<Output> 
     {
-        const { idWallet, name, idCategory, buy, quantity, average, created, idCurrency } = input;
+        // Validar A Entrada Dos Dados
+        const { idWallet, name, category, buy, quantity, average, created, currency } = input;
         const id = this.uuidGenerator.generate();
         const nameInvestment = new Nickname(name);
         const dateInvestment = new DateString(new Date(created).toISOString());
-        const investment = new Investment(id, idWallet, nameInvestment, idCategory, buy, quantity, average, dateInvestment, idCurrency);
+        const investment = new Investment(id, idWallet, nameInvestment, category, buy, quantity, average, dateInvestment, currency);
         await this.investmentRepository.save(investment);
         return {"menssage": "Save with success"};
     }
@@ -27,12 +28,12 @@ export class SaveUseCase implements UseCase
 type Input = {
     idWallet: string,
     name: string,
-    idCategory: string,
+    category: string,
     buy: boolean,
     quantity: number,
     average: number,
     created: string,
-    idCurrency: string,
+    currency: string,
 }   
 
 type Output = {

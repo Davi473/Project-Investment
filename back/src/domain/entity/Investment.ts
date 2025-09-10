@@ -7,12 +7,12 @@ export class Investment
     readonly id: string,
     readonly idWallet: string,
     readonly name: Nickname,
-    readonly idCategory: string,
+    readonly category: string,
     readonly buy: boolean,
     readonly quantity: number,
     readonly average: number,
     readonly created: DateString,
-    readonly idCurrency: string,
+    readonly currency: string,
   ) {}
 
   public valueTotal(): number 
