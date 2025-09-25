@@ -30,12 +30,12 @@ export class InJSONInvestmentRepository implements InvestmentRepository
       id: investment.id,
       idWallet: investment.idWallet,
       name: investment.name.toString(),
-      idCategory: investment.idCategory,
+      idCategory: investment.category,
       buy: investment.buy,
       quantity: investment.quantity,
       average: investment.average,
       created: investment.created.toString(),
-      idCurrency: investment.idCurrency,
+      idCurrency: investment.currency,
     });
     await this.writeJSONFile(investments);
   }
@@ -49,12 +49,12 @@ export class InJSONInvestmentRepository implements InvestmentRepository
       investment.id,
       investment.idWallet,
       new Nickname(investment.name),
-      investment.idCategory,
+      investment.category,
       investment.buy,
       investment.quantity,
       investment.average,
       new DateString(investment.created),
-      investment.idCurrency
+      investment.currency
     ));
   }
 

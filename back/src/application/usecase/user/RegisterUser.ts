@@ -19,22 +19,22 @@ export class RegisterUser implements UseCase
 
     public async execute(input: Input): Promise<Output> 
     {
-        const { nickname, email, password } = input;
-        const nicknameValue = new Nickname(nickname);
+        const { name, email, password } = input;
+        const nameValue = new Nickname(name);
         const emailValue = new Email(email);
         const existingUser = await this.userRepository.findByEmail(emailValue);
         if (existingUser) throw new Error("Usuário já existe");
         const id = this.uuidGenerator.generate();
         const hash = Hash.createFromPassword(password, this.passwordHasher);
         const now = new DateString(new Date().toString());
-        const user = new User(id, nicknameValue, emailValue, hash, now, now, new Currency("USD"));
+        const user = new User(id, nameValue, emailValue, hash, now, now, new Currency("USD"));
         await this.userRepository.save(user);
         return {"menssage": "Usuário criado com sucesso"};
     }
 }
 
 type Input = {
-    nickname: string,
+    name: string,
     email: string,
     password: string
 }   

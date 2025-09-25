@@ -10,6 +10,18 @@ export class InMemoryUserRepository implements UserRepository
 {
   private users: Map<string, User> = new Map();
 
+  constructor() {
+    this.users.set("davi@gmail.com", new User(
+        "0e1975c7-f1c4-4c90-a89c-de8c4fbb6de5",
+        new Nickname("Dorn"),
+        new Email("davi@gmail.com"),
+        new Hash("30f29fce79cac4a9a1cef3c7aa06a9653bd5666c7e695ded86674bbfba4797a4"),
+        new DateString("2025-09-17T01:34:59.000Z"),
+        new DateString("2025-09-17T01:34:59.000Z"),
+        new Currency("USD")
+    ));
+  }
+
   async save(user: User): Promise<void> {
     this.users.set(user.email.toString(), user);
   }
