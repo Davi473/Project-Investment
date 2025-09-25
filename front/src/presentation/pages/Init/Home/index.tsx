@@ -1,0 +1,92 @@
+import React, { useEffect, useState } from 'react';
+import { NavBar } from '../Navbar';
+import Greeting from './Componentes/Greeting';
+import "./style.css";
+
+import TrelloBoard from './TrelloBoard';
+import ListOfWallets from './Componentes/ListOfWallets';
+
+
+
+
+type Wallet = Record<string, unknown>;
+
+export const Home: React.FC = () => {
+    const [config, setConfig] = useState<boolean>(false);
+    const [wallets, setWallets] = useState<Wallet[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [output, setOutput] = useState<{ id: number; text: string; item: React.ReactElement }[]>([{
+        id: 2,
+        text: "List Of Wallets",
+        item: <ListOfWallets wallets={[]} />,
+    }]);
+
+
+    useEffect(() => {
+        const fetchWallets = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await fetch(`http://localhost:3000/wallet`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                const responseData = await response.json();
+                setWallets(responseData.wallets || []);
+            } catch (e) {
+                setWallets([]);
+            }
+        };
+        fetchWallets();
+    }, []);
+
+    useEffect(() => {
+        // Atualiza output quando wallets muda
+        setOutput([
+            {
+                id: 2,
+                text: "List Of Wallets",
+                item: <ListOfWallets wallets={wallets} />,
+            },
+        ]);
+        if (wallets !== undefined && wallets !== null) {
+            setLoading(false);
+        }
+    }, [wallets]);
+
+
+    if (loading) {
+        return <div style={{ color: 'white', marginTop: 100 }}>Carregando...</div>;
+    }
+
+    return (
+        <div style={styles.container}>
+            <div style={{ width: "430px" }}>
+                <NavBar config={config} setConfig={setConfig} />
+            </div>
+            <div className="scroll-container" style={{ width: "430px", overflowY: "auto", marginTop: "10px", marginBottom: "50px" }}>
+                {config ? (
+                    <TrelloBoard output={output} setOutput={setOutput} />
+                ) : (
+                    <>
+                        <Greeting name={"Fulano"} />
+                        {output[0].item}
+                    </>
+                )}
+            </div>
+        </div>
+    );
+};
+
+
+const styles: any = {
+    container: {
+        backgroundColor: "#3a3a3a",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column", 
+        alignItems: "center"  
+    },
+};
