@@ -1,5 +1,5 @@
-import { CreateUseCase } from "../../application/usecase/walletInvestiment/CreateUseCase";
-import { GetUseCase } from "../../application/usecase/walletInvestiment/GetUseCase";
+import { CreateUseCase } from "../../application/usecase/wallet/CreateUseCase";
+import { GetUseCase } from "../../application/usecase/wallet/GetUseCase";
 import { Auth, UserAuth } from "../decorators/Auth";
 import { Body, Controller, Post, Get } from "../decorators/Method";
 
@@ -12,19 +12,37 @@ export default class WalletController
     ) {}
     
     @Auth()
-    @Post()
-    async create(@Body() wallet: any, @UserAuth() user: any, res: any): Promise<any>
+    @Post("/investment")
+    async createInvestment(@Body() wallet: any, @UserAuth() user: any, res: any): Promise<any>
     {
-        const input = { ...wallet, idUser: user.id };
+        const input = { ...wallet, idUser: user.id, type: "i" };
         const output = await this.createWallet.execute(input);
         res.status(201).json(output);
     }
 
     @Auth()
-    @Get()
+    @Get("/investment")
+    async getInvestment(@UserAuth() user: any, res: any): Promise<any>
+    {
+        const input = { ...user, type: "i"};
+        const output = await this.getWallet.execute(input);
+        res.status(201).json(output);
+    }
+
+     @Auth()
+    @Post("/account")
+    async createBill(@Body() wallet: any, @UserAuth() user: any, res: any): Promise<any>
+    {
+        const input = { ...wallet, idUser: user.id, type: "a" };
+        const output = await this.createWallet.execute(input);
+        res.status(201).json(output);
+    }
+
+    @Auth()
+    @Get("/account")
     async get(@UserAuth() user: any, res: any): Promise<any>
     {
-        const input = user;
+        const input =  {...user, type: "a"};
         const output = await this.getWallet.execute(input);
         res.status(201).json(output);
     }

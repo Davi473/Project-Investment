@@ -1,4 +1,4 @@
-import WalletInvestmentRepository from "../../application/repositories/WalletInvestmentRepository";
+import WalletRepository from "../../application/repositories/WalletRepository";
 import { Wallet } from "../../domain/entity/Wallet";
 import { Currency } from "../../domain/vo/Currency";
 import { DateString } from "../../domain/vo/DateString";
@@ -7,7 +7,7 @@ import { Nickname } from "../../domain/vo/Nickname";
 // =============================================
 // In-Memory WalletInvestment Repository
 // =============================================
-export class InMemoryWalletInvestmentRepository implements WalletInvestmentRepository {
+export class InMemoryWalletRepository implements WalletRepository {
     private wallets: Wallet[] = [];
 
     async save(wallet: Wallet): Promise<void> 
@@ -26,7 +26,7 @@ export class InMemoryWalletInvestmentRepository implements WalletInvestmentRepos
 // =============================================
 import fs from 'fs/promises';
 import path from 'path';
-export class InJSONWalletInvestmentRepository implements WalletInvestmentRepository {
+export class InJSONWalletRepository implements WalletRepository {
   private readonly filePath = path.resolve(__dirname, '../../../database/wallet.json');
 
   // 🔒 fila de escrita para evitar concorrência

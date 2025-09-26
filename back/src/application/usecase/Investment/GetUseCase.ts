@@ -12,7 +12,6 @@ export class GetUseCase implements UseCase
     {
         const { idWallet } = input;
         const investments: Investment[] | null = await this.investmentRepository.findByIdWallet(idWallet);
-        console.log(investments)
         return {
             investments: investments ? investments.map(investment => ({
                 id: investment.id,
