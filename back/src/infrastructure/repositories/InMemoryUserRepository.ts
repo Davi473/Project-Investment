@@ -29,6 +29,17 @@ export class InMemoryUserRepository implements UserRepository
   async findByEmail(email: Email): Promise<User | null> {
     return this.users.get(email.toString()) || null;
   }
+
+  async findById(id: string): Promise<User | null> {
+    let userExist: User | null = null;
+
+    this.users.forEach(user => {
+      if (user.id === id)
+        userExist = user;
+    })
+
+    return userExist;
+  }
 }
 
 export class InJSONUserRepository implements UserRepository 
@@ -64,6 +75,21 @@ export class InJSONUserRepository implements UserRepository
       new DateString(userData.updatedAt),
       new Currency(userData.currency),
     );
+  }
+
+  async findById(id: string): Promise<User | null> {
+    const users = await this.readJSONFile();
+    const userData = users.find((u: any) => u.id === id.toString());
+    if (!userData) return null;
+    return new User(
+      userData.id,
+      new Nickname(userData.nickname),
+      new Email(userData.email),
+      new Hash(userData.hash),
+      new DateString(userData.createdAt),
+      new DateString(userData.updatedAt),
+      new Currency(userData.currency),
+    ); 
   }
 
   public async readJSONFile(): Promise<any[]> 

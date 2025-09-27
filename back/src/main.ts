@@ -15,11 +15,13 @@ const passwordHasher = new PasswordHasherImpl();
 import { InMemoryUserRepository, InJSONUserRepository } from "./infrastructure/repositories/InMemoryUserRepository";
 import { RegisterUser } from "./application/usecase/user/RegisterUser";
 import { LoginUser } from "./application/usecase/user/LoginUser";
+import { GetUser } from "./application/usecase/user/GetUser";
 import UserController from "./infrastructure/controllers/UserController";
 const userRepository = new InMemoryUserRepository();
 const registerUser = new RegisterUser(uuidGen, passwordHasher, userRepository);
 const loginUser = new LoginUser(passwordHasher, userRepository);
-const userController = new UserController(registerUser, loginUser);
+const getUser = new GetUser(userRepository);
+const userController = new UserController(registerUser, loginUser, getUser);
 HTTP.registerRoutes(userController);
 
 //=============================
