@@ -1,20 +1,23 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
-
+if (app.commandLine.hasSwitch("enable-transparent-visuals")) {
+    app.disableHardwareAcceleration();
+}
 let mainWindow: BrowserWindow | null;
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
+        frame: false,         
+        transparent: true,   
+        backgroundColor: "#00000000", 
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             nodeIntegration: false,
         },
-        frame: false,
         autoHideMenuBar: true,
-        transparent: true,
     });
 
     mainWindow.loadURL('http://localhost:5173');

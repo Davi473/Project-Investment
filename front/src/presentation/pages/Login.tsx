@@ -17,7 +17,7 @@ const Login: React.FC = () => {
         try {
             const result = await loginUseCase({ email, password });
             storage.set<string>("token", result.token);
-            navigater("/home");
+            navigater("/home/inicio");
         } catch (e: any) {
             alert(e.response.data.message || "Server Down");
         }

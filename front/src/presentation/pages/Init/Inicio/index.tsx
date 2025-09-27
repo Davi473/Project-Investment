@@ -7,11 +7,9 @@ import TrelloBoard from './TrelloBoard';
 import ListOfWallets from './Componentes/ListOfWallets';
 
 
-
-
 type Wallet = Record<string, unknown>;
 
-export const Home: React.FC = () => {
+export const InicioPage: React.FC = () => {
     const [config, setConfig] = useState<boolean>(false);
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -62,10 +60,7 @@ export const Home: React.FC = () => {
     }
 
     return (
-        <div style={styles.container}>
-            <div style={{ width: "430px" }}>
-                <NavBar config={config} setConfig={setConfig} />
-            </div>
+            
             <div className="scroll-container" style={{ width: "430px", overflowY: "auto", marginTop: "10px", marginBottom: "50px" }}>
                 {config ? (
                     <TrelloBoard output={output} setOutput={setOutput} />
@@ -76,17 +71,5 @@ export const Home: React.FC = () => {
                     </>
                 )}
             </div>
-        </div>
     );
-};
-
-
-const styles: any = {
-    container: {
-        backgroundColor: "#3a3a3a",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column", 
-        alignItems: "center"  
-    },
 };
