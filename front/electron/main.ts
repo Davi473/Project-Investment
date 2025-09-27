@@ -11,13 +11,12 @@ const createWindow = () => {
         height: 600,
         frame: false,         
         transparent: true,   
-        backgroundColor: "#00000000", 
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             nodeIntegration: false,
         },
-        autoHideMenuBar: true,
+        autoHideMenuBar: true,    
     });
 
     mainWindow.loadURL('http://localhost:5173');

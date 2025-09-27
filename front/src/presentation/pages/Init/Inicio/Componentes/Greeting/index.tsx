@@ -8,7 +8,7 @@ function day() {
 
 const Greeting = ({ name }: any) => {
     return (
-        <div style={{ width: "420px", marginTop: "100px", marginBottom: "100px"}}>
+        <div className="text-white" style={{ width: "420px", marginTop: "100px", marginBottom: "100px"}}>
             <div style={styles.container}>
                 <small>{day()},</small>
                 <small>{name}</small>

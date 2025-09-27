@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { NavBar } from '../Navbar';
 import Greeting from './Componentes/Greeting';
 import "./style.css";
 
-import TrelloBoard from './TrelloBoard';
 import ListOfWallets from './Componentes/ListOfWallets';
 
 
 type Wallet = Record<string, unknown>;
 
 export const InicioPage: React.FC = () => {
-    const [config, setConfig] = useState<boolean>(false);
     const [wallets, setWallets] = useState<Wallet[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [output, setOutput] = useState<{ id: number; text: string; item: React.ReactElement }[]>([{
@@ -59,17 +56,10 @@ export const InicioPage: React.FC = () => {
         return <div style={{ color: 'white', marginTop: 100 }}>Carregando...</div>;
     }
 
-    return (
-            
-            <div className="scroll-container" style={{ width: "430px", overflowY: "auto", marginTop: "10px", marginBottom: "50px" }}>
-                {config ? (
-                    <TrelloBoard output={output} setOutput={setOutput} />
-                ) : (
-                    <>
-                        <Greeting name={"Fulano"} />
-                        {output[0].item}
-                    </>
-                )}
-            </div>
+    return (    
+        <div className="scroll-container" style={{ width: "430px", overflowY: "auto", marginTop: "10px", marginBottom: "50px" }}>
+            <Greeting name={"Fulano"} />
+            {output[0].item}
+        </div>
     );
 };
