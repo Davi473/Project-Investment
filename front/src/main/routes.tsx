@@ -15,7 +15,7 @@ const RoutesApp: React.FC = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/home" element={<HomePage />}>
                     <Route path="inicio" element={<InicioPage />} />
-                    <Route index path="*" element={<Navigate to="inicio" replace />} />
+                    <Route index path="*" element={<Navigate to="/home/inicio" replace />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>

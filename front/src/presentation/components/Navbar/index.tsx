@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export const NavBar = () => {
     const [config, setConfig] = useState<boolean>(false);
     const togglePopup = () => setConfig(!config);
+    const [ativo, setAtivo] = useState<string | null>(null);
 
     const line = {
         height: "4px",
@@ -22,9 +23,27 @@ export const NavBar = () => {
             style={{ width: "400px", height: "35px", fontSize: "1em" }}
         >
             <div className="d-flex align-items-center justify-content-center">
-                <Link to="/home/inicio" className="text-center ms-2 text-dark text-decoration-none">HOME</Link>
-                <Link to="" className="text-center ms-2 text-dark text-decoration-none">INVESTMENT</Link>
-                <Link to="" className="text-center ms-2 text-dark text-decoration-none">BILL</Link>
+                <Link 
+                    to="/home/inicio" 
+                    className={"text-center ms-2 text-decoration-none fw-bolder " + (ativo === "a" ? "text-secondary" : "text-dark")}
+                    onClick={() => setAtivo("a")}
+                >
+                    HOME
+                </Link>
+                <Link 
+                    to="" 
+                    className={"text-center ms-2 text-decoration-none fw-bolder " + (ativo === "b" ? "text-secondary" : "text-dark")}
+                    onClick={() => setAtivo("b")}
+                >
+                    INVESTMENT
+                </Link>
+                <Link 
+                    to="" 
+                    className={"text-center ms-2 text-decoration-none fw-bolder " + (ativo === "c" ? "text-secondary" : "text-dark")}
+                    onClick={() => setAtivo("c")}
+                >
+                    BILL
+                </Link>
             </div>
             <div className="d-flex align-items-center justify-content-center me-2">
                 <Link 
