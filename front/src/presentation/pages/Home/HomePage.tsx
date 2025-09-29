@@ -10,9 +10,9 @@ export const HomePage= () => {
     useEffect(() => {
         const init = async () => {
             const token = storage.get<string>("token");
-            if (!token) return navigater("/login");
+            // if (!token) return navigater("/login");
             const response = await getUseCase();
-            console.log(response);
+            storage.set<any>("user", response.user);
         }
         init();
     }, []);

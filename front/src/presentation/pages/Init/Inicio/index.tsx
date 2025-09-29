@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Greeting from './Componentes/Greeting';
 import "./style.css";
-
 import ListOfWallets from './Componentes/ListOfWallets';
-
+import { storage } from '../../../../infra/storage/localStorage';
+import ListOrderInvestment from '../ListOrderInvestment';
+import Property from './Componentes/Property';
 
 type Wallet = Record<string, unknown>;
 
@@ -20,7 +20,7 @@ export const InicioPage: React.FC = () => {
     useEffect(() => {
         const fetchWallets = async () => {
             try {
-                const token = localStorage.getItem("token");
+                const token = storage.get<string>("token");
                 const response = await fetch(`http://localhost:3000/wallet`, {
                     method: "GET",
                     headers: {
@@ -38,12 +38,21 @@ export const InicioPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        // Atualiza output quando wallets muda
         setOutput([
+            {
+                id: 1,
+                text: "Property",
+                item: <Property />
+            },
             {
                 id: 2,
                 text: "List Of Wallets",
-                item: <ListOfWallets wallets={wallets} />,
+                item: <ListOfWallets wallets={wallets} />
+            },
+            {
+                id: 3,
+                text: "List Order Investment",
+                item: <ListOrderInvestment />
             },
         ]);
         if (wallets !== undefined && wallets !== null) {
@@ -58,8 +67,22 @@ export const InicioPage: React.FC = () => {
 
     return (    
         <div className="scroll-container" style={{ width: "430px", overflowY: "auto", marginTop: "10px", marginBottom: "50px" }}>
-            <Greeting name={"Fulano"} />
-            {output[0].item}
+            <div className="text-white" style={{ width: "420px", marginTop: "100px", marginBottom: "100px"}}>
+                <div className="d-flex flex-column justify-content-evenly p-3">
+                    <small>{day()},</small>
+                    <small>{"Fulano"}</small>
+                </div>
+            </div>
+            {
+                output.map(tag => tag.item)
+            }
         </div>
     );
 };
+
+function day() {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return "Good Morning";
+    if (hour >= 12 && hour < 18)  return "Good Afternoon";
+    else return "Good Evening";
+}

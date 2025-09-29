@@ -2,18 +2,22 @@ import React from "react";
 
 const Resume: React.FC<any> = ({ value }: any) => {
     return (
-        <div style={styles.container}>
-            <label style={styles.label}>{value.title}</label>
-            <div style={styles.input}>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+        <div className="d-flex flex-column justify-content-evenly">
+            <label className="text-white mb-1">{value.title}</label>
+            <div 
+                // className="d-flex justify-content-around p-2 rounded bg-white"
+                className="d-flex justify-content-around p-2 bg-white"
+                style={{width: "400px", border: "none", outline: "none", boxShadow: "2px 2px 5px #222", fontSize: "1em", borderRadius: "20px"}}
+            >
+                <div className="d-flex flex-column">
                     <small>{value.column1}</small>
                     <small>{value.columnValue1}</small>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div className="d-flex flex-column">
                     <small>{value.column2}</small>
                     <small>{value.columnValue2}</small>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div className="d-flex flex-column">
                     <small>{value.column3}</small>
                     <small>{value.columnValue3}</small>
                 </div>
@@ -23,23 +27,3 @@ const Resume: React.FC<any> = ({ value }: any) => {
 };
 
 export default Resume;
-
-const styles: any = {
-    container: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-evenly",
-    },
-    input: {
-        width: "400px",
-        padding: "10px",
-        borderRadius: "15px",
-        border: "none",
-        outline: "none",
-        boxShadow: "2px 2px 5px #222",
-        backgroundColor: "#d3d3d3",
-        fontSize: "1em",
-        display: "flex",
-        justifyContent: "space-around"
-    }
-}
