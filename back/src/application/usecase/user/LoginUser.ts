@@ -4,6 +4,7 @@ import { UserRepository } from "../../repositories/UserRepository";
 import { Email } from "../../../domain/vo/Email";
 import { Hash } from "../../../domain/vo/Hash";
 import UseCase from "../UseCase";
+import { Currency } from "../../../domain/vo/Currency";
 
 export class LoginUser implements UseCase {
     constructor(
@@ -23,7 +24,8 @@ export class LoginUser implements UseCase {
         return {"menssage": "Usuário autenticado com sucesso",
             "token": generateToken({id: existingUser.id.toString(), 
                 email: existingUser.email.toString(), 
-                nickname: existingUser.nickname.toString()
+                nickname: existingUser.nickname.toString(),
+                currency: existingUser.currency.toString()
             })};
     }
 }

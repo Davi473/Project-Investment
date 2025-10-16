@@ -10,18 +10,6 @@ export class InMemoryUserRepository implements UserRepository
 {
   private users: Map<string, User> = new Map();
 
-  constructor() {
-    this.users.set("davi@gmail.com", new User(
-        "0e1975c7-f1c4-4c90-a89c-de8c4fbb6de5",
-        new Nickname("Dorn"),
-        new Email("davi@gmail.com"),
-        new Hash("30f29fce79cac4a9a1cef3c7aa06a9653bd5666c7e695ded86674bbfba4797a4"),
-        new DateString("2025-09-17T01:34:59.000Z"),
-        new DateString("2025-09-17T01:34:59.000Z"),
-        new Currency("USD")
-    ));
-  }
-
   async save(user: User): Promise<void> {
     this.users.set(user.email.toString(), user);
   }
@@ -39,6 +27,64 @@ export class InMemoryUserRepository implements UserRepository
     })
 
     return userExist;
+  }
+}
+
+export class PostgresUserRepository implements UserRepository {
+  constructor(private db: any) {}
+  async save(user: User): Promise<void> {
+    const query = `
+      INSERT INTO users (id, nickname, email, hash, created_at, updated_at, currency)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      ON CONFLICT (email)
+      DO UPDATE SET
+        nickname = EXCLUDED.nickname,
+        hash = EXCLUDED.hash,
+        updated_at = EXCLUDED.updated_at,
+        currency = EXCLUDED.currency;
+    `;
+
+    await this.db.query(query, [
+      user.id,
+      user.nickname.toString(),
+      user.email.toString(),
+      user.hash.toString(),
+      user.createdAt.toString(),
+      user.updatedAt.toString(),
+      user.currency.toString(),
+    ]);
+  }
+
+  async findByEmail(email: Email): Promise<User | null> {
+    const result = await this.db.query("SELECT * FROM users WHERE email = $1", [email.toString()]);
+    const row = result.rows[0];
+    if (!row) return null;
+
+    return new User(
+      row.id,
+      new Nickname(row.nickname),
+      new Email(row.email),
+      new Hash(row.hash),
+      new DateString(row.created_at.toISOString()),
+      new DateString(row.updated_at.toISOString()),
+      new Currency(row.currency)
+    );
+  }
+
+  async findById(id: string): Promise<User | null> {
+    const result = await this.db.query("SELECT * FROM users WHERE id = $1", [id]);
+    const row = result.rows[0];
+    if (!row) return null;
+
+    return new User(
+      row.id,
+      new Nickname(row.nickname),
+      new Email(row.email),
+      new Hash(row.hash),
+      new DateString(row.created_at.toISOString()),
+      new DateString(row.updated_at.toISOString()),
+      new Currency(row.currency)
+    );
   }
 }
 

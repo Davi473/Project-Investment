@@ -7,6 +7,50 @@ import { Nickname } from "../../domain/vo/Nickname";
 // =============================================
 // In-Memory WalletInvestment Repository
 // =============================================
+export class PostgresWalletRepository implements WalletRepository {
+  constructor( private db: any) {}
+
+  async save(wallet: Wallet): Promise<void> {
+    const query = `
+      INSERT INTO wallets (id, id_user, name, currency, created_at, status)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      ON CONFLICT (id) DO UPDATE SET
+        name = EXCLUDED.name,
+        currency = EXCLUDED.currency,
+        type = EXCLUDED.type,
+        created_at = EXCLUDED.created_at;
+    `;
+
+    await this.db.query(query, [
+      wallet.id,
+      wallet.idUser,
+      wallet.name.toString(),
+      wallet.currency.toString(),
+      wallet.createdAt.toString(),
+      wallet.type,
+    ]);
+  }
+
+  async findByIdUser(idUser: string): Promise<Wallet[] | null> {
+    const result: any = await this.db.query("SELECT * FROM wallets WHERE id_user = $1", [idUser]);
+    if (result.rows.length === 0) return null;
+    return result.rows.map(
+      (row: any) =>
+        new Wallet(
+          row.id,
+          row.id_user,
+          new Nickname(row.name),
+          new Currency(row.currency),
+          new DateString(row.created_at.toISOString()),
+          row.type
+        )
+    );
+  }
+}
+
+// =============================================
+// In-Memory WalletInvestment Repository
+// =============================================
 export class InMemoryWalletRepository implements WalletRepository {
     private wallets: Wallet[] = [];
 
@@ -29,7 +73,6 @@ import path from 'path';
 export class InJSONWalletRepository implements WalletRepository {
   private readonly filePath = path.resolve(__dirname, '../../../database/wallet.json');
 
-  // 🔒 fila de escrita para evitar concorrência
   private writing: Promise<void> = Promise.resolve();
 
   private async queueWrite(operation: () => Promise<void>): Promise<void> {

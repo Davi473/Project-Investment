@@ -10,5 +10,5 @@ export class Account {
         readonly amount: number,
         readonly created: DateString,
         readonly currency: string,
-    ) { }
+    ) {}
 }
