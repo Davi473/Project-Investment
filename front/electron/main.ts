@@ -7,7 +7,7 @@ let mainWindow: BrowserWindow | null;
 
 const createWindow = () => {
     mainWindow = new BrowserWindow({
-        width: 800,
+        width: 850,
         height: 600,
         frame: false,         
         transparent: true,   
@@ -19,7 +19,7 @@ const createWindow = () => {
         autoHideMenuBar: true,    
     });
 
-    mainWindow.loadURL('http://localhost:5173');
+    mainWindow.loadURL('http://localhost:5175');
     // mainWindow.loadFile('/../index.html');
 
     // mainWindow.webContents.openDevTools(); // Descomente para abrir o DevTools automaticamente

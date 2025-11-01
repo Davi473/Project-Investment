@@ -1,4 +1,4 @@
-import { useDragScroll } from "../../../../../components/useDragScroll";
+import { useDragScroll } from "../../../../../../components/useDragScroll";
 
 const resumaWalletBill = {
     title: "Inter",

@@ -1,21 +1,23 @@
-import yahooFinance from "yahoo-finance2";
 import { CurrencyRepository } from "../../application/repositories/CurrencyRepository";
+import { YahooFinanceService } from "./YahooFinanceService";
 
 export class CurrencyService {
 
-    constructor(private repository: CurrencyRepository) {
+    constructor(
+        private repository: CurrencyRepository,
+        private service: YahooFinanceService
+    ) {
         this.init();
         this.repeat();
         setInterval(() => {
             this.repeat();
-            console.log("Atualizado");
         }, 5 * 60 * 1000);
     }
 
     private async init() {
         const currencys = ["USDBRL=X", "USDUSD=X", "USDEUR=X"];
         for (const currency of currencys) {
-            const currencyNew = await this.getValueAction(currency);
+            const currencyNew = await this.service.getValueAction(currency);
             if (!currencyNew.price) continue;
             const currencyObject = {
                 id: crypto.randomUUID(),
@@ -23,7 +25,6 @@ export class CurrencyService {
                 value: currencyNew.price,
                 name: currencyNew.currency
             };
-            console.log(currencyNew);
             this.repository.save(currencyObject);
         }
     }
@@ -32,11 +33,11 @@ export class CurrencyService {
         const currencys = await this.repository.findAll();
         if (currencys.length === 0 ) return;
         for (const currency of currencys) {
-            const currencyNew = await this.getValueAction(currency.currency);
+            const currencyNew = await this.service.getValueAction(currency.currency);
             if (!currencyNew.price) continue;
             const currencyObject = {
                 id: crypto.randomUUID(),
-                currency: currency,
+                currency: currency.currency,
                 value: currencyNew.price,
                 name: currency.name
             };
@@ -49,14 +50,5 @@ export class CurrencyService {
         if (!currencyExist) 
             throw new Error(`Currency ${currency} no exist`); 
         return currencyExist;
-    }
-
-    private async getValueAction(symbol: string) {
-        const quote = await yahooFinance.quote(symbol);
-        return {
-            symbol,
-            price: quote.regularMarketPrice,
-            currency: quote.currency,
-        };
     }
 }

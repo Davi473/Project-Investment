@@ -22,4 +22,14 @@ export class DateString
     {
         return this.value;
     }
+
+    public toMonth(): string
+    {
+        return (this.value.getMonth() + 1).toString();
+    }
+
+    public toYear(): string
+    {
+        return this.value.getFullYear().toString();
+    }
 }

@@ -6,6 +6,7 @@ import { storage } from "../../infra/storage/localStorage";
 const Login: React.FC = () => {
     const [enterPassword, setEnterPassword] = useState<boolean>(false);
     const [enterEmail, setEnterEmail] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const navigater = useNavigate();
@@ -17,7 +18,7 @@ const Login: React.FC = () => {
         try {
             const result = await loginUseCase({ email, password });
             storage.set<string>("token", result.token);
-            navigater("/home/inicio");
+            navigater("/home/");
         } catch (e: any) {
             alert(e.response.data.message || "Server Down");
         }
@@ -29,39 +30,54 @@ const Login: React.FC = () => {
                 <h1 className="fw-bold">Login</h1>
 
                 <div className="text-start w-100">
-                    { 
-                        enterEmail ? 
-                            <label className="text-danger ms-2">Enter your E-mail</label> : 
-                            <label className="form-label ms-2">E-mail</label> 
+                    {
+                        enterEmail ?
+                            <label className="text-danger ms-2">Enter your E-mail</label> :
+                            <label className="form-label ms-2">E-mail</label>
                     }
-                    <input
-                        type="email"
-                        placeholder="Enter your e-mail"
-                        className="form-control rounded-pill shadow-sm bg-light"
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                            setEnterEmail(false);
-                        }}
-                        value={email}
-                    />
+                    <div className="position-relative w-100" style={{ maxWidth: "400px" }}>
+                        <input
+                            type="email"
+                            placeholder="Enter your e-mail"
+                            className="form-control rounded-pill shadow-sm ps-4 pe-5 bg-light border-0"
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                setEnterEmail(false);
+                            }}
+                            value={email}
+                        />
+                    </div>
                 </div>
 
                 <div className="text-start w-100">
-                    { 
-                        enterPassword ? 
-                            <label className="text-danger ms-2">Enter your Password</label> : 
-                            <label className="form-label ms-2">Password</label> 
+                    {
+                        enterPassword ?
+                            <label className="text-danger ms-2">Enter your Password</label> :
+                            <label className="form-label ms-2">Password</label>
                     }
-                    <input
-                        type="password"
-                        placeholder="Enter your password"
-                        className="form-control rounded-pill shadow-sm bg-light"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                            setEnterPassword(false);
-                        }}
-                        value={password}
-                    />
+                    <div className="position-relative w-100" style={{ maxWidth: "400px" }}>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
+                            className="form-control rounded-pill shadow-sm ps-4 pe-5 bg-light border-0"
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setEnterPassword(false)
+                            }}
+                            value={password}
+                        />
+                        <button
+                            type="button"
+                            className="btn position-absolute top-50 end-0 translate-middle-y pe-3 border-0"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? (
+                                <i className="bi bi-eye"></i>
+                            ) : (
+                                <i className="bi bi-eye-slash"></i>
+                            )}
+                        </button>
+                    </div>
                 </div>
 
                 <input

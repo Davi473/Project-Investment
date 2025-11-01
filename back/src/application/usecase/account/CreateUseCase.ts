@@ -13,17 +13,17 @@ export class CreateUseCase implements UseCase {
 
     public async execute(input: Input): Promise<Output> 
     {
-        const { name, idWallet, amount, category, currency } = input;
+        const { name, idWallet, amount, category, currency, date } = input;
         const account = new Account(
             this.uuidGenerator.generate(), 
             idWallet, 
             new Nickname(name),
             category,
             amount,
-            new DateString(new Date().toISOString()),
+            new DateString(date.toISOString()),
             currency ? currency : "USD"
         );
-        this.repository.save(account);
+        await this.repository.save(account);
         return {"menssage": "Conta Adicionada Com Sucesso"};
     }
 }
@@ -34,6 +34,7 @@ type Input = {
     amount: number,
     category: "expense" | "income",
     currency?: string,
+    date: Date
 }   
 
 type Output = {

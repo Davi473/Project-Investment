@@ -1,17 +1,6 @@
-import { useEffect, useState } from "react";
-
-const values = {
-    title: "Order List",
-    colunas: [{ 
-        name: "VALE", category: "Stock", 
-            quantity: "2.8000", average: "8,8", 
-            type: "Buy", date: "30/06/2025"
-        }]
-}
-
 function head() {
     return (
-        <div style={styles.inputBody}>
+        <div className="text-white" style={styles.inputBody}>
             <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <small>Name</small>
             </div>
@@ -32,20 +21,24 @@ function head() {
             </div>
         </div>
     )
-} 
+}
 
 function body(key: any, value: any) {
     return (
-        <div key={key} style={{ paddingTop: "5px"}}>
-            <div style={styles.input}>
+        <div key={key} style={{ paddingTop: "5px" }}>
+            <div style={styles.input} className="bg-white">
                 <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <small>{value.name}</small>
+                    <small>{value.nickname.split('.')[0]}</small>
                 </div>
                 <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <small>{value.category}</small>
+                    <small>{value.category.toUpperCase()}</small>
                 </div>
                 <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <small>{value.quantity}</small>
+                    <small>{
+                        Number.isInteger(value.quantity)
+                            ? value.quantity
+                            : value.quantity.toFixed(5)
+                    }</small>
                 </div>
                 <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <small>R$ {value.average}</small>
@@ -54,7 +47,7 @@ function body(key: any, value: any) {
                     <small>{value.type}</small>
                 </div>
                 <div style={{ minWidth: "65px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                    <small>{value.date}</small>
+                    <small>{new Date(value.date).toLocaleDateString("pt-BR")}</small>
                 </div>
             </div>
         </div>
@@ -62,29 +55,13 @@ function body(key: any, value: any) {
 }
 
 
-const ListOrderInvestment = () => {
-    const [listInvestment, setListInvestment] = useState<any>();
-    // useEffect(() => {
-    //     const init = async () => {
-    //         const token = localStorage.getItem("token");
-    //         const response = await fetch("http://localhost:3000/investment", {
-    //             method: "GET",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
-    //             }
-    //         });
-    //         setListInvestment(await response.json());
-    //     }
-    //     init();
-    // },[listInvestment]);
-
+const ListOrderInvestment = ({ values, title }: any) => {
     return (
-        <div style={{paddingTop: "50px"}}>
+        <div style={{ paddingTop: "50px" }}>
             <div style={styles.container}>
-                <label style={styles.label}>{values.title}</label>
+                <label style={styles.label} className="text-white">{title}</label>
                 {head()}
-                {values.colunas.map((values: any, key: any) => body(key, values))}
+                {values.map((values: any, key: any) => body(key, values))}
             </div>
         </div>
     );
@@ -105,7 +82,6 @@ const styles: any = {
         border: "none",
         outline: "none",
         boxShadow: "2px 2px 5px #222",
-        backgroundColor: "#d3d3d3",
         fontSize: "1em",
         display: "flex",
         justifyContent: "space-around"

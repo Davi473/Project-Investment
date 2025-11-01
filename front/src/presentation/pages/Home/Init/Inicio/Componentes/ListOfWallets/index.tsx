@@ -1,55 +1,40 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
-// const resumeWalletInvestment = {
-//     title: "Inter",
-//     column1: "Input Value",
-//     column2: "Profitability",
-//     column3: "Current Value",
-//     columnValue1: "R$ 1000",
-//     columnValue2: "10%",
-//     columnValue3: "R$ 1100"
-// }
-// const resumeWalletInvestments = [resumeWalletInvestment];
-
-const ListOfWallets = ({ wallets }: any) => {
+const ListOfWallets = ({ wallets, investments }: any) => {
     const [investment, setInvestment] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-
+    const navigator = useNavigate();
     useEffect(() => {
         const init = async () => {
-            if (!wallets || wallets.length === 0) {
-                setLoading(false);
-                return;
-            }
-            const token = localStorage.getItem("token");
-            const investments: any[] = [];
+            const investment: any[] = [];
             for (const wallet of wallets) {
-                const response = await fetch(`http://localhost:3000/investment/${wallet.id}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
-                console.log(wallet);
-                const responseData = await response.json();
-                const formatado = new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: wallet.currency,
-                }).format(0);
-                investments.push({
-                    // ...wallet, stock: responseData 
+                const valueWallet = investments.wallet(wallet.name, wallet.value);
+                investment.push({
+                    id: wallet.id,
                     title: wallet.name,
-                    columnValue1: formatado,
-                    columnValue2: "0%",
-                    columnValue3: formatado
+                    amountInvested: new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: wallet.currency,
+                    }).format(valueWallet.amount),
+                    property: new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: wallet.currency,
+                    }).format((valueWallet.currencyValue - valueWallet.amount)),
+                    columnValue2: valueWallet.amount === 0 ? 0 : (((valueWallet.currencyValue * 100) / valueWallet.amount) - 100).toFixed(2),
+                    currentValue: new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: wallet.currency,
+                    }).format(valueWallet.currencyValue)
                 });
             }
-            setInvestment(investments);
+            setInvestment(investment);
             setLoading(false);
         };
         init();
-    }, []);
+    }, [wallets]);
 
     if (loading) {
         return <div style={{ color: 'white', marginTop: 100 }}>Carregando...</div>;
@@ -57,35 +42,48 @@ const ListOfWallets = ({ wallets }: any) => {
 
     return (
         <div style={{ paddingTop: "50px" }}>
-            {/* <ResumeWallet values={[]} input={"Test"} /> */}
             <div>
                 <label className="text-white mb-1" >List Of Wallets</label>
-                <div 
+                <div
                     // ref={useDragScroll()}
                     className="scroll-container d-flex overflow-auto"
                     style={{ width: "420px", gap: "16px" }}
                 >
+
                     {
                         investment.map((value: any, key: any) => (
-                            <div key={key} className="d-flex flex-column justify-content-around">
+                            <div
+                                key={key}
+                                className="d-flex flex-column justify-content-around"
+                                onClick={() => navigator(`/wallet/${value.id}?name=${value.title}`)}
+                            >
                                 <div
-                                    className="d-flex flex-column justify-content-around p-2"
-                                    style={{ width: "100px", height: "130px", borderRadius: "15px", border: "none", outline: "none", boxShadow: "2px 2px 5px #222", backgroundColor: "#d3d3d3", fontSize: "1em" }}
+                                    className="d-flex flex-column justify-content-around p-2 bg-white"
+                                    style={{ width: "120px", height: "160px", borderRadius: "15px", border: "none", outline: "none", boxShadow: "2px 2px 5px #222", fontSize: "1em" }}
                                 >
                                     <div className="d-flex flex-column align-items-center">
                                         <small>{value.title}</small>
                                     </div>
                                     <div className="d-flex flex-column">
                                         <small>Input Value</small>
-                                        <small>{value.columnValue1}</small>
+                                        <small>{value.amountInvested}</small>
                                     </div>
-                                    <div className="d-flex flex-column">
-                                        <small>Profitability</small>
-                                        <small>{value.columnValue2}</small>
-                                    </div>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        overlay={
+                                            <Tooltip id="tooltip-top">
+                                                {(value.property)}
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <div className="d-flex flex-column text-start" style={{ cursor: "pointer" }}>
+                                            <small>Profitability</small>
+                                            <small>{value.columnValue2}%</small>
+                                        </div>
+                                    </OverlayTrigger>
                                     <div className="d-flex flex-column">
                                         <small>Current Value</small>
-                                        <small>{value.columnValue3}</small>
+                                        <small>{value.currentValue}</small>
                                     </div>
                                 </div>
                             </div>

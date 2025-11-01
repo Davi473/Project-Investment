@@ -31,10 +31,16 @@ connectDB()
 //=============================
 // Currency Service
 //=============================
+import { YahooFinanceService } from "./infrastructure/service/YahooFinanceService";
+const serviceYahooFinance = new YahooFinanceService();
+
+//=============================
+// Currency Service
+//=============================
 import { InMemoryCurrencyRepository } from "./infrastructure/repositories/InMemoryCurrencyRepository";
 import { CurrencyService } from "./infrastructure/service/CurrencyService";
 const currencyRepository = new InMemoryCurrencyRepository();
-const currencyService = new CurrencyService(currencyRepository);
+const currencyService = new CurrencyService(currencyRepository, serviceYahooFinance);
 
 //=============================
 // User Controller
@@ -90,7 +96,7 @@ import { ActionService } from "./infrastructure/service/ActionService";
 // const investmentRepository = new InMemoryInvestmentRepository();
 const investmentRepository = new PostgresInvestmentRepository(DB);
 const actionRepository = new InMemoryActionRepository();
-const actionService = new ActionService(actionRepository);
+const actionService = new ActionService(actionRepository, serviceYahooFinance);
 const saveInvestmentUseCase = new SaveUseCase(uuidGen, investmentRepository);
 const getInvestmentUseCase = new InvestmentGetUseCase(investmentRepository, actionService, currencyService);
 const investmentController = new InvestmentController(saveInvestmentUseCase, getInvestmentUseCase);

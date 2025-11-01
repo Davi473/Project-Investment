@@ -10,13 +10,11 @@ export const WindowControls: React.FC = () => {
     }
   }, []);
 
-
-
   return (
     <>
       <div
-        className="position-absolute w-100"
-        style={{ height: "32px", top: 0, left: 0, zIndex: 1, WebkitAppRegion: "drag" } as React.CSSProperties}
+        className="position-absolute w-100 bg-dark"
+        style={{ height: "32px", top: 0, left: 0, zIndex: 1, WebkitAppRegion: "drag", borderRadius: "15px" } as React.CSSProperties}
       />
       <div
         className="d-flex align-items-center justify-content-between position-absolute pt-1"
