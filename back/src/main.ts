@@ -29,7 +29,7 @@ export async function connectDB() {
 connectDB()
 
 //=============================
-// Currency Service
+// Yahoo Finance Service
 //=============================
 import { YahooFinanceService } from "./infrastructure/service/YahooFinanceService";
 const serviceYahooFinance = new YahooFinanceService();

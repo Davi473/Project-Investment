@@ -41,6 +41,5 @@ test("Save Account", async () => {
             enter += bill.amount;
         return enter;
     }, 0));
-    // console.log(save);
 }, 20000);
 
