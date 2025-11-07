@@ -8,6 +8,7 @@ const Login: React.FC = () => {
     const [enterEmail, setEnterEmail] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState<string>("");
+    const [mensage, setMensage] = useState<string>();
     const [email, setEmail] = useState<string>("");
     const navigater = useNavigate();
 
@@ -20,7 +21,7 @@ const Login: React.FC = () => {
             storage.set<string>("token", result.token);
             navigater("/home/");
         } catch (e: any) {
-            alert(e.response.data.message || "Server Down");
+            setMensage(e.mensage);
         }
     };
 

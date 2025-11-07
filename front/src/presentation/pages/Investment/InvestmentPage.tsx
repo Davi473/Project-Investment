@@ -119,44 +119,46 @@ export const InvestmentPage: React.FC = () => {
                         onClick={() => navigator(`/wallet/${wallet.id}?name=${wallet.name}`)}
                     >
                         <p className="mt-2" >{wallet.name}</p>
-                        <div
-                            className="d-flex flex-row justify-content-between w-75"
-                        >
-                            <table className="table table-borderless w-100 text-center">
-                                <thead>
-                                    <tr>
-                                        <td>Currency</td>
-                                        <td>Input</td>
-                                        <td>Amount</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {[...investments.wallet(wallet.name).entries()].map(([currency, investment]) => (
-                                        <tr 
-                                            key={currency}
-                                        >
-                                            <td>{currency}</td>
-                                            <td>
-                                                {
-                                                    new Intl.NumberFormat("en-US", {
-                                                        style: "currency",
-                                                        currency: currency,
-                                                    }).format(investment.amount)
-                                                }
-                                            </td>
-                                            <td>
-                                                {
-                                                    new Intl.NumberFormat("en-US", {
-                                                        style: "currency",
-                                                        currency: currency,
-                                                    }).format(investment.currentValue)
-                                                }
-                                            </td>
+                        {!!investments.wallet(wallet.name).entries() && (
+                            <div
+                                className="d-flex flex-row justify-content-between w-75"
+                            >
+                                <table className="table table-borderless w-100 text-center">
+                                    <thead>
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td>Input</td>
+                                            <td>Amount</td>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {[...investments.wallet(wallet.name).entries()].map(([currency, investment]) => (
+                                            <tr
+                                                key={currency}
+                                            >
+                                                <td>{currency}</td>
+                                                <td>
+                                                    {
+                                                        new Intl.NumberFormat("en-US", {
+                                                            style: "currency",
+                                                            currency: currency,
+                                                        }).format(investment.amount)
+                                                    }
+                                                </td>
+                                                <td>
+                                                    {
+                                                        new Intl.NumberFormat("en-US", {
+                                                            style: "currency",
+                                                            currency: currency,
+                                                        }).format(investment.currentValue)
+                                                    }
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </div>
                 ))
             }

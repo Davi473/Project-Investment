@@ -54,13 +54,13 @@ export const HomePage = () => {
                         >
                             INVESTMENT
                         </Link>
-                        <Link
+                        {/* <Link
                             to="/home/bill"
                             className={`text-center ms-2 text-decoration-none fw-bolder ${ativo === "c" ? "text-secondary" : "text-dark"}`}
                             onClick={() => setAtivo("c")}
                         >
                             BILL
-                        </Link>
+                        </Link> */}
                     </nav>
                     <div className="d-flex align-items-center justify-content-center me-2">
                         <button
