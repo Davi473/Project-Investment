@@ -1,5 +1,0 @@
-
-
-test("Adicionar ativos", async () => {
-
-});
