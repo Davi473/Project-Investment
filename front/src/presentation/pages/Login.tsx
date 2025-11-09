@@ -8,7 +8,7 @@ const Login: React.FC = () => {
     const [enterEmail, setEnterEmail] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState<string>("");
-    const [mensage, setMensage] = useState<string>();
+    const [mensage, setMensage] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const navigater = useNavigate();
 
@@ -18,10 +18,10 @@ const Login: React.FC = () => {
         if (!email || !password) return;
         try {
             const result = await loginUseCase({ email, password });
-            storage.set<string>("token", result.token);
-            navigater("/home/");
+            storage.set<string>("token", result.data.token);
+            navigater("/home");
         } catch (e: any) {
-            setMensage(e.mensage);
+            setMensage(e.response.data.message);
         }
     };
 
@@ -43,6 +43,7 @@ const Login: React.FC = () => {
                             className="form-control rounded-pill shadow-sm ps-4 pe-5 bg-light border-0"
                             onChange={(e) => {
                                 setEmail(e.target.value);
+                                setMensage("");
                                 setEnterEmail(false);
                             }}
                             value={email}
@@ -63,6 +64,7 @@ const Login: React.FC = () => {
                             className="form-control rounded-pill shadow-sm ps-4 pe-5 bg-light border-0"
                             onChange={(e) => {
                                 setPassword(e.target.value);
+                                setMensage("");
                                 setEnterPassword(false)
                             }}
                             value={password}
@@ -80,6 +82,12 @@ const Login: React.FC = () => {
                         </button>
                     </div>
                 </div>
+
+                {mensage && (
+                    <div className="text-center">
+                        <small className="text-white">{mensage}</small>
+                    </div>
+                )}
 
                 <input
                     type="button"

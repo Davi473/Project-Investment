@@ -1,45 +1,40 @@
-import React from 'react';
-import './style.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { storage } from "../../../infra/storage/localStorage";
 
-export default function TrelloBoard() {
-    const [output, setOutput] = React.useState<boolean>(false)
-    const [draggedIdx, setDraggedIdx] = React.useState<number | null>(null);
+export const SettingPage = () => {
+    const [user, setUser] = useState<any>();
+    const navigator = useNavigate();
 
-    const onDragStart = (idx: number) => {
-        setDraggedIdx(idx);
-    };
-
-    const onDragOver = (e: React.DragEvent) => {
-        e.preventDefault();
-    };
-
-    // const onDrop = (idx: number) => {
-    //     if (draggedIdx === null || draggedIdx === idx) return;
-    //     const newCards = [...output];
-    //     const [removed] = newCards.splice(draggedIdx, 1);
-    //     newCards.splice(idx, 0, removed);
-    //     setOutput(newCards);
-    //     setDraggedIdx(null);
-    // };
+    useEffect(() => {
+        const init = async () => {
+            const user = await storage.get<any>("user");
+            setUser(user);
+        };
+        init();
+    }, []);
 
     return (
-        <div className="trello-board" style={{ justifyContent: 'center' }}>
-            <div className="trello-column">
-                <div className="trello-column-title">Lista de Tarefas</div>
-                {/* {output.map((card: any, idx: any) => (
-                    <div
-                        className="trello-card"
-                        key={card.id}
-                        draggable
-                        onClick={() => {
-                            console.log(output);
-                        }}
-                        onDragStart={() => onDragStart(idx)}
-                        onDragOver={onDragOver}
-                        onDrop={() => onDrop(idx)}
-                        style={{ opacity: draggedIdx === idx ? 0.5 : 1, cursor: 'grab' }}
-                    >
-                        <span className="trello-card-text">{card.text}</span>
+        <div>
+            <div className="text-white d-flex flex-column justify-content-evenly p-3 mt-4">
+                {/* <small>{day()},</small> */}
+                <small>Mr. {user ? user.name.toUpperCase() : null}</small>
+            </div>
+            <div className="mt-4 mx-auto">
+                <button
+                    className="btn btn-danger rounded"
+                    onClick={() => {
+                        storage.remove("token");
+                        navigator("/login");
+                    }}
+                >
+                    EXIT
+                </button>
+            </div>
+            <div className="mt-4">
+                {/* {output.map(section => (
+                    <div key={section.id}>
+                        {section.render()}
                     </div>
                 ))} */}
             </div>

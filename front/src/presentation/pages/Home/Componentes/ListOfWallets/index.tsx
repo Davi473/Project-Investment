@@ -89,7 +89,10 @@ const ListOfWallets = ({ wallets, investments }: any) => {
                             </div>
                         ))
                     }
-                    <div className="d-flex flex-column justify-content-around">
+                    <div 
+                        className="d-flex flex-column justify-content-around"
+                        onClick={() => navigator("wallet/create")}
+                    >
                         <div
                             className="d-flex flex-column justify-content-around align-items-center bg-white"
                             style={{

@@ -26,7 +26,6 @@ const Register: React.FC = () => {
 
     return (
         <div className="d-flex justify-content-center align-items-center vh-100 bg-dark">
-            {/* {popupOutput && <Popap output={popupMessage} close={setPopupOutput} />} */}
 
             <div className="text-center d-flex flex-column gap-3 text-white">
                 <h1>Register</h1>

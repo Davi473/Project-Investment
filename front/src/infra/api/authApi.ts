@@ -4,12 +4,12 @@ import { storage } from "../storage/localStorage";
 export const authApi = {
     login: async (data: { email: string; password: string }) => {
         const response = await api.put("/users", data);
-        return response.data;
+        return response;
     },
 
     register: async (data: { name: string; email: string; password: string }) => {
         const response = await api.post("/users", data);
-        return response.data;
+        return response;
     },
 
     get: async () => {
@@ -18,6 +18,6 @@ export const authApi = {
                 Authorization: `Bearer ${storage.get<string>("token")}`
             }
         });
-        return response.data;
+        return response;
     },
 };

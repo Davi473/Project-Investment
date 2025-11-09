@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import ListOfWallets from './Componentes/ListOfWallets';
-import { storage } from '../../../../../infra/storage/localStorage';
+import { storage } from '../../../infra/storage/localStorage';
 import ListOrderInvestment from './Componentes/ListOrderInvestment';
 import Property from './Componentes/Property';
 
@@ -18,7 +18,7 @@ export const InicioPage: React.FC = () => {
                 const token = storage.get<string>("token");
                 const investments = new Investment();
                 // Wallets
-                const response = await fetch(`http://localhost:3000/wallet/investment`, {
+                const response = await fetch(`http://localhost:3000/api/wallet/investment`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export const InicioPage: React.FC = () => {
                 const responseDate = await response.json();
                 setWallets(responseDate.wallets);
                 // User
-                const responseUser = await fetch(`http://localhost:3000/users`, {
+                const responseUser = await fetch(`http://localhost:3000/api/users`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export const InicioPage: React.FC = () => {
                 // Investment
                 for (const wallet of responseDate.wallets) {
                     const token = storage.get<string>("token");
-                    const response = await fetch(`http://localhost:3000/investment/${wallet.id}`, {
+                    const response = await fetch(`http://localhost:3000/api/investment/${wallet.id}`, {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
@@ -74,11 +74,14 @@ export const InicioPage: React.FC = () => {
                     investments={investments}
                 />
         },
-        { id: 3, text: "List Order Investment", render: () => 
-            <ListOrderInvestment 
-                values={investments.recentDates()}
-                title={"Order List"}
-            />
+        {
+            id: 3, text: "List Order Investment", render: () =>
+            (investments.recentDates().length !== 0 &&
+                <ListOrderInvestment
+                    values={investments.recentDates()}
+                    title={"Order List"}
+                />
+            )
         },
     ];
 

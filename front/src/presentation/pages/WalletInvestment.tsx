@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { storage } from "../../../infra/storage/localStorage";
+import { storage } from "../../infra/storage/localStorage";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 export const WalletInvestment = () => {
@@ -134,10 +134,13 @@ export const WalletInvestment = () => {
                     >
                         <div className="w-75 d-flex justify-content-between align-items-center">
                             <p className="mb-0">{name?.toUpperCase()}</p>
-                            <button className="btn btn-outline-secondary btn-sm rounded-pill">
+                            <Link 
+                                to={"investment/create"}
+                                className="btn btn-outline-secondary btn-sm rounded-pill"
+                            >
                                 <i className="bi bi-plus-lg text-black me-2"></i>
                                 Adicionar
-                            </button>
+                            </Link>
                         </div>
                         {[...investments.currency().entries()].map(([currency, value]) => (
                             <div

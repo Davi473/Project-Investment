@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { storage } from '../../../infra/storage/localStorage';
+import { storage } from '../../infra/storage/localStorage';
 
 const input = {
     currentMonth: {
