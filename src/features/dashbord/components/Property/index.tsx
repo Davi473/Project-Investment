@@ -3,7 +3,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 
 const Property = ({ value }: any) => {
     return (
-        <div className="d-flex flex-column justify-content-evenly">
+        <div className="d-flex flex-column justify-content-evenly w-100">
             < label className="text-white mb-1" > {"Property"}</label >
             <div
                 className="d-flex justify-content-around p-2 bg-white"

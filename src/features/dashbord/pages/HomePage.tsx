@@ -28,10 +28,10 @@ export const HomePage = () => {
                     style={{ height: "35px", fontSize: "1em" }}
                 >
                     <nav className="d-flex align-items-center justify-content-center">
-                        <NavLink to="/home" className={getLinkClasses}>
+                        <NavLink to="/dashbord" className={getLinkClasses}>
                             HOME
                         </NavLink>
-                        <NavLink to="/home/investment" className={getLinkClasses}>
+                        <NavLink to="/dashbord/investment" className={getLinkClasses}>
                             INVESTMENT
                         </NavLink>
                     </nav>
@@ -42,7 +42,7 @@ export const HomePage = () => {
                             style={{ height: "20px", width: "20px", zIndex: 1001 }}
                             onClick={() => {
                                 if (config) navigate(-1);
-                                else navigate("/home/setting");
+                                else navigate("/dashbord/setting");
                                 setConfig((prev) => !prev);
                             }}
                             aria-label="Configurações"
@@ -82,7 +82,7 @@ export const HomePage = () => {
             {/* Sub-rotas dentro de /home */}
             <main
                 className="scroll-container overflow-auto d-flex flex-column align-items-center flex-grow-1 mt-3 p-3"
-                style={{ width: "60%" }}
+                style={{ width: "50%" }}
             >
                 <HomeFrom />
                 {/* <Routes>

@@ -39,6 +39,7 @@ export const HomeFrom: React.FC = () => {
                 investments.currecyUser(userDate.user.currency, userDate.user.value);
                 // Investment
                 for (const wallet of responseDate.wallets) {
+                    console.log(wallet)
                     const token = storage.get<string>("token");
                     const response = await fetch(`http://localhost:3000/api/investment/${wallet.id}`, {
                         method: "GET",
@@ -48,12 +49,14 @@ export const HomeFrom: React.FC = () => {
                         }
                     });
                     const responseDate: any = await response.json();
+                    console.log(responseDate);
                     investments.add(wallet.name, responseDate.investments);
                 }
                 setInvestments(investments);
                 console.log(investments);
                 setLoading(false);
             } catch (e) {
+                console.log(e.message);
                 console.error("Erro no Servidor");
             }
         };
@@ -90,8 +93,8 @@ export const HomeFrom: React.FC = () => {
     }
 
     return (
-        <div>
-            <div className="text-white d-flex flex-column justify-content-evenly p-3 mt-4">
+        <div className="w-100">
+            <div className="text-white d-flex flex-column justify-content-evenly mt-4 w-100">
                 <small>{day()},</small>
                 <small>Mr. {user.name.toUpperCase()}</small>
             </div>

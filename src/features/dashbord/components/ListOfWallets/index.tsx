@@ -47,7 +47,7 @@ const ListOfWallets = ({ wallets, investments }: any) => {
                 <div
                     // ref={useDragScroll()}
                     className="scroll-container d-flex overflow-auto"
-                    style={{ width: "420px", gap: "16px" }}
+                    style={{ width: "100%", gap: "16px" }}
                 >
 
                     {
