@@ -66,7 +66,7 @@ export const RegisterFrom: React.FC = () => {
                 label={"Password"}
                 type={"password"}
                 value={password}
-                placeholder={"Enter your Name"}
+                placeholder={"Enter your Password"}
                 onChange={(e) => {
                     setPassword(e.target.value);
                     setMessage("");

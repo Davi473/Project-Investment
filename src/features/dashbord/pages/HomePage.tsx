@@ -1,9 +1,16 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { HomeFrom } from "../components/HomeFrom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { storage } from "@/shared/storage/localStorage";
 
 export const HomePage = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = storage.get<string>("token");
+        if (token) return;
+        navigate("/login");
+    }, []);
 
     const [config, setConfig] = useState(false);
 

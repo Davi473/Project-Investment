@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { storage } from "@/shared/storage/localStorage";
 import { Input } from "@/shared/components/Input";
@@ -13,6 +13,12 @@ export const LoginFrom: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const { handleLogin } = useAuth();
     const navigater = useNavigate();
+
+    useEffect(() => {
+        const token = storage.get<string>("token");
+        if (!token) return;
+        navigater("/dashbord");
+    }, []);
 
     const loginUser = async () => {
         if (!email || !password) {

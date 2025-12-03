@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { LoginPage } from "../src/features/auth/pages/LoginPage";
+import { RegisterPage } from "../src/features/auth/pages/RegisterPage";
 import { BrowserRouter } from "react-router-dom";
 
 function renderWithRouter(ui: any) {
@@ -9,9 +9,17 @@ function renderWithRouter(ui: any) {
 
 describe("LoginFrom", () => {
   it("Deve criar uma conta", async () => {
-    renderWithRouter(<LoginPage />);
+    renderWithRouter(<RegisterPage />);
 
-    // expect(screen.getByTestId("login").textContent).toBe("Login");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Login");
+    const emailInput = screen.getByPlaceholderText("Enter your E-mail");
+    const nameInput = screen.getByPlaceholderText("Enter your Name");
+    const passwordInput = screen.getByPlaceholderText("Enter your Password");
+
+    fireEvent.change(emailInput, { target: { value: "fulano@gmail.com" } });
+    fireEvent.change(nameInput, { target: { value: "Fulano Test" } });
+    fireEvent.change(passwordInput, { target: { value: "@Fulnao1234" } });
+
+    expect(emailInput).toHaveValue("fulano@gmail.com");
+    expect(passwordInput).toHaveValue("@Fulnao1234");
   });
 });
