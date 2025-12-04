@@ -3,6 +3,7 @@ import { storage } from '@/shared/storage/localStorage';
 import Property from './Property';
 import ListOfWallets from './ListOfWallets';
 import { day } from '@/shared/utils/day';
+import { useNavigate } from 'react-router-dom';
 
 
 export const HomeFrom: React.FC = () => {
@@ -10,6 +11,7 @@ export const HomeFrom: React.FC = () => {
     const [wallets, setWallets] = useState<any[]>([]);
     const [user, setUser] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
+    const navigator = useNavigate();
 
     useEffect(() => {
         const fetchWallets = async () => {
@@ -36,6 +38,11 @@ export const HomeFrom: React.FC = () => {
                 });
                 const userDate = await responseUser.json();
                 setUser(userDate.user)
+                if(userDate.error) {
+                    storage.clear();
+                    navigator("/")
+                }
+                console.log(userDate)
                 investments.currecyUser(userDate.user.currency, userDate.user.value);
                 // Investment
                 for (const wallet of responseDate.wallets) {
@@ -57,7 +64,7 @@ export const HomeFrom: React.FC = () => {
                 setLoading(false);
             } catch (e) {
                 console.log(e.message);
-                console.error("Erro no Servidor");
+                // console.error("Erro no Servidor");
             }
         };
         fetchWallets();
