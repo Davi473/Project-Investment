@@ -10,7 +10,7 @@ import { useInvestment } from '../hooks/useInvestment';
 
 
 export const HomeFrom: React.FC = () => {
-    const [investments, setInvestments] = useState<Investment>(new Investment());
+    const [investments, setInvestments] = useState<Investment>();
     const [wallets, setWallets] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const navigator = useNavigate();
@@ -20,11 +20,10 @@ export const HomeFrom: React.FC = () => {
 
     const fetchWallets = async () => {
         try {
-            const investments = new Investment();
+            const investments = new Investment(user.currency, user.value);
             // Get User's Wallets
             const response = await getWallets();
             setWallets(response.data.wallets);
-            investments.currecyUser(user.currency, user.value);
             for (const wallet of response.data.wallets) {
                 // Get Investment For Wallet
                 const response = await getInvestment(wallet.id);
@@ -40,7 +39,7 @@ export const HomeFrom: React.FC = () => {
     const init = async () => {
         try {
             await getUser();
-            fetchWallets();
+            await fetchWallets();
         } catch (e: any) {
             alert(e.data.message);
             navigator("/login");
@@ -49,7 +48,7 @@ export const HomeFrom: React.FC = () => {
 
     useEffect(() => {
         init();
-       
+
         const interval = setInterval(() => {
             fetchWallets();
         }, 180000);
@@ -58,7 +57,7 @@ export const HomeFrom: React.FC = () => {
     }, []);
 
     const output: any[] = [
-        { id: 1, text: "Property", render: () => <Property value={investments.property()} /> },
+        { id: 1, text: "Property", render: () => <Property value={investments.getTotalPortfolioValue()} /> },
         {
             id: 2, text: "List Of Wallets", render: () =>
                 <ListOfWallets
@@ -100,76 +99,73 @@ export const HomeFrom: React.FC = () => {
 
 class Investment {
     public investments: Map<string, any> = new Map();
-    private currency: string = "USD";
-    private value: number = 1;
+
+    constructor(private currency: string, private value: number) {
+    }
 
     public add(wallet: string, investment: any): void {
         this.investments.set(wallet, investment);
     }
 
-    public currecyUser(currency: string, value: number) {
-        this.currency = currency;
-        this.value = value;
+    public calculateWalletSummary(walletId: string, targetCurrencyRate: number): any {
+        const investments: any[] = this.investments.get(walletId) || [];
+        const summary: any = {
+            totalInvested: 0,
+            totalCurrentValue: 0
+        };
+        if (investments.length === 0) {
+            return summary;
+        }
+        for (const investment of investments) {
+            if (investment.userCurrency === 0) continue;
+            const conversionRatio = targetCurrencyRate / investment.userCurrency;
+            const investedAmount = investment.average * investment.quantity;
+            const marketValue = investment.currentValue * investment.quantity;
+            summary.totalInvested += investedAmount * conversionRatio;
+            summary.totalCurrentValue += marketValue * conversionRatio;
+        }
+        return summary;
     }
 
-    public wallet(wallet: string, currency: number): any {
-        const walletCurrency: Map<string, any> = new Map();
-        const investments: any[] = this.investments.get(wallet);
-        investments.forEach(investment => {
-            if (!walletCurrency.get(investment.currency))
-                walletCurrency.set(investment.currency, { amount: 0, currentValue: 0, currency: investment.userCurrency });
-            let object = walletCurrency.get(investment.currency);
-            object.currentValue += (investment.currentValue * investment.quantity);
-            object.amount += (investment.average * investment.quantity);
-            walletCurrency.set(investment.currency, object);
+    public getTotalPortfolioValue(): any {
+        const summary: any = {
+            amount: 0,
+            currencyValue: 0,
+            currency: this.currency
+        };
+        this.investments.forEach((investmentList: any[]) => {
+            for (const investment of investmentList) {
+                if (!investment.userCurrency || investment.userCurrency === 0) continue;
+                const conversionRate = this.value / investment.userCurrency;
+                const investedTotal = investment.average * investment.quantity;
+                const currentTotal = investment.currentValue * investment.quantity;
+                summary.amount += investedTotal * conversionRate;
+                summary.currencyValue += currentTotal * conversionRate;
+            }
         });
-        const value = { amount: 0, currencyValue: 0 };
-        walletCurrency.forEach((investment: any) => {
-            value.amount += (investment.amount * (currency / investment.currency));
-            value.currencyValue += (investment.currentValue * (currency / investment.currency));
-        })
-        return value;
+
+        return summary;
     }
 
-    public property(): any {
-        const currencys: Map<string, any> = new Map();
-        this.investments.forEach((investment: any[]) => {
-            investment.forEach(investment => {
-                if (!currencys.get(investment.currency))
-                    currencys.set(investment.currency, { amount: 0, currencyValue: 0, currency: investment.userCurrency });
-                let value = currencys.get(investment.currency);
-                value.amount += (investment.average * investment.quantity);
-                value.currencyValue += (investment.currentValue * investment.quantity);
-                currencys.set(investment.currency, value);
-            });
-        });
-        const value = { amount: 0, currencyValue: 0, currency: this.currency };
-        currencys.forEach(investment => {
-            value.amount += (investment.amount * (this.value / investment.currency));
-            value.currencyValue += (investment.currencyValue * (this.value / investment.currency));
-        })
-        return value;
-    }
+    // public listLimitTen(): Map<string, any> {
+    //     const currencys: Map<string, any> = new Map();
+    //     this.investments.forEach((investment: any[]) => {
+    //         investment.forEach(investment => {
+    //             if (!currencys.get(investment.currency))
+    //                 currencys.set(investment.currency, 0);
+    //             let value = currencys.get(investment.currency);
+    //             value += (investment.currentValue * investment.quantity);
+    //             currencys.set(investment.currency, value);
+    //         });
+    //     });
+    //     return currencys;
+    // }
 
-    public listLimitTen(): Map<string, any> {
-        const currencys: Map<string, any> = new Map();
-        this.investments.forEach((investment: any[]) => {
-            investment.forEach(investment => {
-                if (!currencys.get(investment.currency))
-                    currencys.set(investment.currency, 0);
-                let value = currencys.get(investment.currency);
-                value += (investment.currentValue * investment.quantity);
-                currencys.set(investment.currency, value);
-            });
-        });
-        return currencys;
-    }
-
-    public recentDates(): string[] {
-        const allInvestments: any[] = [];
-        this.investments.forEach((inv: any[]) => allInvestments.push(...inv));
-        allInvestments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        const lastFive = allInvestments.slice(0, 5);
-        return lastFive;
-    }
+    // public recentDates(): string[] {
+    //     const allInvestments: any[] = [];
+    //     this.investments.forEach((inv: any[]) => allInvestments.push(...inv));
+    //     allInvestments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    //     const lastFive = allInvestments.slice(0, 5);
+    //     return lastFive;
+    // }
 }

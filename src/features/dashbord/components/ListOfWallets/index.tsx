@@ -11,23 +11,23 @@ const ListOfWallets = ({ wallets, investments }: any) => {
         const init = async () => {
             const investment: any[] = [];
             for (const wallet of wallets) {
-                const valueWallet = investments.wallet(wallet.name, wallet.value);
+                const valueWallet = investments.calculateWalletSummary(wallet.name, wallet.value);
                 investment.push({
                     id: wallet.id,
                     title: wallet.name,
                     amountInvested: new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: wallet.currency,
-                    }).format(valueWallet.amount),
+                    }).format(valueWallet.totalInvested),
                     property: new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: wallet.currency,
-                    }).format((valueWallet.currencyValue - valueWallet.amount)),
-                    columnValue2: valueWallet.amount === 0 ? 0 : (((valueWallet.currencyValue * 100) / valueWallet.amount) - 100).toFixed(2),
+                    }).format((valueWallet.totalCurrentValue - valueWallet.totalInvested)),
+                    columnValue2: valueWallet.totalInvested === 0 ? 0 : (((valueWallet.totalCurrentValue * 100) / valueWallet.totalInvested) - 100).toFixed(2),
                     currentValue: new Intl.NumberFormat("en-US", {
                         style: "currency",
                         currency: wallet.currency,
-                    }).format(valueWallet.currencyValue)
+                    }).format(valueWallet.totalCurrentValue)
                 });
             }
             setInvestment(investment);
