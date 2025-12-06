@@ -1,22 +1,18 @@
 import { createContext, useContext, useState } from "react";
 
-interface User {
-    name: string;
-    email: string;
-}
 
 interface AuthContextProps {
-    user: User | null;
-    login: (user: User) => void;
+    user: any | null;
+    login: (user: any) => void;
     logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 export const AuthProvider = ({ children }: { children: any }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<any | null>(null);
 
-    const login = (user: User) => setUser(user);
+    const login = (user: any) => setUser(user);
     const logout = () => setUser(null);
 
     return (

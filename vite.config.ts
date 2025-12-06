@@ -4,21 +4,27 @@ import path from 'path';
 
 const plugins = [react()];
 
+const test = {
+  environment: "jsdom",
+  globals: true,
+  setupFiles: "./setupTests.ts",
+  include: ["tests/**/*.test.{js,jsx,ts,tsx}"]
+}
+
+const server = {
+  port: 5175,
+  host: true
+}
+
+const resolve = {
+  alias: {
+    "@": path.resolve(import.meta.dirname, "src"),
+  },
+}
+
 export default defineConfig({
   plugins,
-  server: {
-    port: 5175,
-    host: true
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "src"),
-    },
-  },
-  test: {
-    environment: "jsdom",
-    globals: true,
-    setupFiles: "./setupTests.ts",
-    include: ["tests/**/*.test.{js,jsx,ts,tsx}"]
-  }
+  server,
+  resolve,
+  test
 });

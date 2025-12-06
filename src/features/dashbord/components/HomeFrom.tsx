@@ -4,70 +4,52 @@ import Property from './Property';
 import ListOfWallets from './ListOfWallets';
 import { day } from '@/shared/utils/day';
 import { useNavigate } from 'react-router-dom';
+import { useWallet } from '../hooks/useWallet';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { useInvestment } from '../hooks/useInvestment';
 
 
 export const HomeFrom: React.FC = () => {
     const [investments, setInvestments] = useState<Investment>(new Investment());
     const [wallets, setWallets] = useState<any[]>([]);
-    const [user, setUser] = useState<any>();
     const [loading, setLoading] = useState<boolean>(true);
     const navigator = useNavigate();
+    const { getWallets } = useWallet();
+    const { user, getUser } = useAuth();
+    const { getInvestment } = useInvestment();
+
+    const fetchWallets = async () => {
+        try {
+            const investments = new Investment();
+            // Get User's Wallets
+            const response = await getWallets();
+            setWallets(response.data.wallets);
+            investments.currecyUser(user.currency, user.value);
+            for (const wallet of response.data.wallets) {
+                // Get Investment For Wallet
+                const response = await getInvestment(wallet.id);
+                investments.add(wallet.name, response.data.investments);
+            }
+            setInvestments(investments);
+            setLoading(false);
+        } catch (e) {
+            console.log(e.message);
+        }
+    };
+
+    const init = async () => {
+        try {
+            await getUser();
+            fetchWallets();
+        } catch (e: any) {
+            alert(e.data.message);
+            navigator("/login");
+        }
+    }
 
     useEffect(() => {
-        const fetchWallets = async () => {
-            try {
-                const token = storage.get<string>("token");
-                const investments = new Investment();
-                // Wallets
-                const response = await fetch(`http://localhost:3000/api/wallet/investment`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
-                const responseDate = await response.json();
-                setWallets(responseDate.wallets);
-                // User
-                const responseUser = await fetch(`http://localhost:3000/api/users`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                });
-                const userDate = await responseUser.json();
-                setUser(userDate.user)
-                if(userDate.error) {
-                    storage.clear();
-                    navigator("/")
-                }
-                console.log(userDate)
-                investments.currecyUser(userDate.user.currency, userDate.user.value);
-                // Investment
-                for (const wallet of responseDate.wallets) {
-                    console.log(wallet)
-                    const token = storage.get<string>("token");
-                    const response = await fetch(`http://localhost:3000/api/investment/${wallet.id}`, {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${token}`
-                        }
-                    });
-                    const responseDate: any = await response.json();
-                    console.log(responseDate);
-                    investments.add(wallet.name, responseDate.investments);
-                }
-                setInvestments(investments);
-                console.log(investments);
-                setLoading(false);
-            } catch (e) {
-                console.log(e.message);
-                // console.error("Erro no Servidor");
-            }
-        };
-        fetchWallets();
+        init();
+       
         const interval = setInterval(() => {
             fetchWallets();
         }, 180000);

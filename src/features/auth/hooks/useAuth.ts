@@ -14,5 +14,11 @@ export const useAuth = () => {
         return await authService.register(name, email, password);
     };
 
-    return { user, handleLogin, handleRegister, logout };
+    const getUser = async () => {
+        const response = await authService.get();
+        login(response.data.user);
+        return response;
+    }
+
+    return { user, handleLogin, handleRegister, logout, getUser };
 };
